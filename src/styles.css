@@ -615,8 +615,59 @@ h1, h2, p { overflow-wrap: break-word; }
 
 .hole:active { transform: none; }
 .hole.up .mole { transform: translateY(-4%); }
-.hole.bonk .mole { transform: translateY(10%) scale(0.92); }
+.hole.bonk { overflow: visible; z-index: 2; }
+.hole.bonk .mole { transform: translateY(-4%) scale(0.94); }
+.hole.tease .mole { animation: mole-tease 0.46s ease-out; }
 .mole-face { width: 100%; height: 100%; }
+
+.mole-tongue {
+  transform-box: fill-box;
+  transform-origin: center top;
+  animation: tongue-out 0.42s ease-out;
+}
+
+.mole-stars {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 2%;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.mole-stars i {
+  --x: 0px;
+  width: 16px;
+  height: 16px;
+  background: #ffd000;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: mole-star 0.62s ease-out forwards;
+}
+
+.mole-stars i:nth-child(1) { --x: -12px; }
+.mole-stars i:nth-child(2) { --x: 0px; animation-delay: 0.06s; }
+.mole-stars i:nth-child(3) { --x: 12px; animation-delay: 0.12s; }
+
+@keyframes tongue-out {
+  0% { transform: scaleY(0.15); }
+  55% { transform: scaleY(1.15); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes mole-tease {
+  0%, 100% { transform: translateY(-4%); }
+  35% { transform: translateY(-4%) rotate(-7deg); }
+  70% { transform: translateY(-4%) rotate(6deg); }
+}
+
+@keyframes mole-star {
+  0% { transform: translate(var(--x), 8px) scale(0.2); opacity: 0; }
+  35% { transform: translate(var(--x), -8px) scale(1.15); opacity: 1; }
+  100% { transform: translate(var(--x), -20px) scale(0.85); opacity: 0; }
+}
 
 .board {
   width: min(100%, 420px);
@@ -799,4 +850,6 @@ h1, h2, p { overflow-wrap: break-word; }
   .card.on .face.back { display: none; }
   .card.on .face.front { display: grid; transform: none; }
   .confetti { display: none; }
+  .mole-tongue, .hole.tease .mole, .mole-stars i { animation: none; }
+  .mole-stars i { opacity: 1; transform: none; }
 }

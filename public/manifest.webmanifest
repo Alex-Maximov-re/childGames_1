@@ -1,0 +1,17 @@
+{
+  "name": "Лучик — игры для детей",
+  "short_name": "Лучик",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFF6E4",
+  "theme_color": "#FFF6E4",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

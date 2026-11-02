@@ -6,8 +6,8 @@ import { playBad, playGood } from '../sound'
 import { cx } from '../text'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function ColorGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeColorRounds)
+export function ColorGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeColorRounds(age))
   const quiz = useQuiz(rounds.length)
   const missed = useRef(false)
   const [wrong, setWrong] = useState<string | null>(null)
@@ -24,6 +24,7 @@ export function ColorGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Цвета"
       gameId="colors"
       step={quiz.step}

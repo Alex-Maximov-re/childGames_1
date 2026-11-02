@@ -158,7 +158,7 @@ function PlayScreen({
   const index = list.findIndex((game) => game.id === id)
   const upcoming = list[index + 1]
   const next = upcoming ? { title: upcoming.title, onGo: () => onNext(upcoming.id) } : undefined
-  return <View key={nonce} onExit={onExit} onReplay={onReplay} next={next} />
+  return <View key={nonce} age={age} onExit={onExit} onReplay={onReplay} next={next} />
 }
 
 class Guard extends Component<{ children: ReactNode }, { hasError: boolean }> {

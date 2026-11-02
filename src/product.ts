@@ -12,7 +12,7 @@ export function platformTitle(platform: Platform): string {
 export function platformSubtitle(platform: Platform): string {
   if (platform === 'web') return 'Веб-приложение в браузере'
   if (platform === 'android') return 'Приложение для Android'
-  return 'Игры для детей от 3 до 12 лет'
+  return 'Игры для детей от 1 года'
 }
 
 export function platformFoot(platform: Platform): string {

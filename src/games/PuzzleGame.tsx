@@ -18,10 +18,10 @@ function neighbors(index: number): number[] {
   return list
 }
 
-function walk(): number[] {
+function walk(steps: number): number[] {
   const tiles = [...SOLVED]
   let previous = -1
-  for (let move = 0; move < 32; move += 1) {
+  for (let move = 0; move < steps; move += 1) {
     const empty = tiles.indexOf(0)
     const options = neighbors(empty).filter((index) => index !== previous)
     const pool = options.length > 0 ? options : neighbors(empty)
@@ -38,22 +38,23 @@ function solved(tiles: number[]): boolean {
   return tiles.every((tile, index) => tile === SOLVED[index])
 }
 
-function scramble(): number[] {
+function scramble(steps: number): number[] {
   for (let attempt = 0; attempt < 8; attempt += 1) {
-    const tiles = walk()
+    const tiles = walk(steps)
     if (!solved(tiles)) return tiles
   }
-  return walk()
+  return walk(steps)
 }
 
-function puzzleStars(moves: number): StarScore {
-  if (moves <= 40) return 3
-  if (moves <= 75) return 2
+function puzzleStars(moves: number, steps: number): StarScore {
+  if (moves <= steps + 8) return 3
+  if (moves <= steps * 2) return 2
   return 1
 }
 
-export function PuzzleGame({ onExit, onReplay, next }: GameProps) {
-  const [tiles, setTiles] = useState(scramble)
+export function PuzzleGame({ age, onExit, onReplay, next }: GameProps) {
+  const steps = age === 'y79' ? 14 : 32
+  const [tiles, setTiles] = useState(() => scramble(steps))
   const [moves, setMoves] = useState(0)
   const [done, setDone] = useState(false)
   const [stars, setStars] = useState<StarScore>(1)
@@ -80,7 +81,7 @@ export function PuzzleGame({ onExit, onReplay, next }: GameProps) {
     playTap()
     if (solved(nextTiles)) {
       doneRef.current = true
-      setStars(puzzleStars(nextMoves))
+      setStars(puzzleStars(nextMoves, steps))
       setDone(true)
     }
   }, [])
@@ -113,6 +114,7 @@ export function PuzzleGame({ onExit, onReplay, next }: GameProps) {
     >
       {done ? (
         <Finish
+          age={age}
           gameId="puzzle"
           stars={stars}
           detail={`Ходы: ${moves}`}

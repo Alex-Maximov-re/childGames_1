@@ -1,14 +1,14 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 import { setSoundEnabled } from './sound'
 import { loadSave, writeSave, type SaveData } from './storage'
-import type { AgeId, GameId } from './types'
+import type { AgeId } from './types'
 
 type SaveApi = {
   save: SaveData
   toggleSound: () => void
   resetProgress: () => void
   setAge: (age: AgeId) => void
-  record: (id: GameId, stars: number) => void
+  record: (key: string, stars: number) => void
 }
 
 const SaveContext = createContext<SaveApi | null>(null)
@@ -47,12 +47,12 @@ export function SaveProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
-  const record = useCallback((id: GameId, stars: number) => {
+  const record = useCallback((key: string, stars: number) => {
     const safe = Math.min(3, Math.max(1, Math.round(stars)))
     setSave((prev) => {
-      const current = prev.stars[id] ?? 0
+      const current = prev.stars[key] ?? 0
       if (safe <= current) return prev
-      const next = { ...prev, stars: { ...prev.stars, [id]: safe } }
+      const next = { ...prev, stars: { ...prev.stars, [key]: safe } }
       writeSave(next)
       return next
     })

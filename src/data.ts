@@ -1,5 +1,5 @@
 import { randInt, shuffle } from './random'
-import type { ShapeId } from './types'
+import type { AgeId, ShapeId } from './types'
 
 export type ColorChip = { id: string; name: string; hex: string }
 
@@ -23,11 +23,28 @@ const COLOR_SETS = [
   ['yellow', 'purple', 'cyan', 'red'],
 ]
 
+const COLOR_PAIRS = [
+  ['red', 'yellow'],
+  ['blue', 'green'],
+  ['red', 'blue'],
+  ['yellow', 'green'],
+]
+
+const COLOR_TRIOS = [
+  ['red', 'yellow', 'blue'],
+  ['green', 'orange', 'yellow'],
+  ['pink', 'blue', 'yellow'],
+  ['red', 'green', 'orange'],
+  ['purple', 'yellow', 'green'],
+  ['blue', 'orange', 'pink'],
+]
+
 export type ColorRound = { target: ColorChip; options: ColorChip[] }
 
-export function makeColorRounds(): ColorRound[] {
+export function makeColorRounds(age: AgeId): ColorRound[] {
+  const sets = age === 'y12' ? COLOR_PAIRS : age === 'y3' ? COLOR_TRIOS : COLOR_SETS
   let previous = ''
-  return COLOR_SETS.map((ids) => {
+  return sets.map((ids) => {
     const options = ids.map((id) => PALETTE[id])
     let target = options[randInt(0, options.length - 1)]
     let guard = 0
@@ -52,21 +69,24 @@ const SHAPES: ShapeChip[] = [
   { id: 'diamond', label: 'ромб', accusative: 'ромб' },
 ]
 
-function oneShape(index: number): ShapeRound {
-  const pool = index < 2 ? SHAPES.slice(0, 3) : SHAPES
+function oneShape(poolSize: number, optionCount: number): ShapeRound {
+  const pool = SHAPES.slice(0, poolSize)
   const target = pool[randInt(0, pool.length - 1)]
-  const others = shuffle(pool.filter((shape) => shape.id !== target.id)).slice(0, index < 2 ? pool.length - 1 : 3)
+  const others = shuffle(pool.filter((shape) => shape.id !== target.id)).slice(0, optionCount - 1)
   return { target, options: shuffle([target, ...others]) }
 }
 
-export function makeShapeRounds(): ShapeRound[] {
+export function makeShapeRounds(age: AgeId): ShapeRound[] {
+  const poolSize = age === 'y3' ? 3 : age === 'y4' ? 4 : 6
+  const optionCount = age === 'y3' ? 3 : 4
+  const total = age === 'y3' ? 4 : 6
   const rounds: ShapeRound[] = []
   let previous = ''
-  for (let index = 0; index < 6; index += 1) {
-    let round = oneShape(index)
+  for (let index = 0; index < total; index += 1) {
+    let round = oneShape(poolSize, optionCount)
     let guard = 0
     while (round.target.id === previous && guard < 6) {
-      round = oneShape(index)
+      round = oneShape(poolSize, optionCount)
       guard += 1
     }
     previous = round.target.id
@@ -97,18 +117,22 @@ function soundsClash(left: string, right: string): boolean {
   return pair === 'ква|кря' || pair === 'бе-е|му-у'
 }
 
-export function makeVoiceRounds(): VoiceRound[] {
-  return shuffle(ANIMALS)
-    .slice(0, 6)
+export function makeVoiceRounds(age: AgeId): VoiceRound[] {
+  const source = age === 'y12' ? ANIMALS.slice(0, 4) : ANIMALS
+  const total = age === 'y12' ? 4 : 6
+  const choices = age === 'y12' ? 2 : 3
+  return shuffle(source)
+    .slice(0, total)
     .map((animal) => {
-      const others = shuffle(ANIMALS.filter((item) => item.id !== animal.id && !soundsClash(item.sound, animal.sound)))
-      const pool = others.length >= 2 ? others : shuffle(ANIMALS.filter((item) => item.id !== animal.id))
+      const others = shuffle(source.filter((item) => item.id !== animal.id && !soundsClash(item.sound, animal.sound)))
+      const backup = others.length >= choices - 1 ? others : shuffle(source.filter((item) => item.id !== animal.id))
+      const picked = backup.slice(0, choices - 1)
       return {
         name: animal.name,
         emoji: animal.emoji,
         answer: animal.sound,
         say: `Что говорит ${animal.name}?`,
-        options: shuffle([animal.sound, pool[0].sound, pool[1].sound]),
+        options: shuffle([animal.sound, ...picked.map((item) => item.sound)]),
       }
     })
 }
@@ -124,8 +148,8 @@ const MEMORY_FACES = [
   { id: 'fox', emoji: '🦊', name: 'лиса' },
 ]
 
-export function makeDeck(): MemoryFace[] {
-  const cards = MEMORY_FACES.flatMap((face) => [
+export function makeDeck(pairs: number): MemoryFace[] {
+  const cards = MEMORY_FACES.slice(0, pairs).flatMap((face) => [
     { ...face, uid: `${face.id}-1` },
     { ...face, uid: `${face.id}-2` },
   ])
@@ -145,26 +169,27 @@ const COUNT_KINDS = [
   { emoji: '🐟', question: 'Сколько рыбок?' },
 ]
 
-function distractors(n: number): number[] {
-  const candidates = [n - 2, n - 1, n + 1, n + 2, n + 3].filter((value) => value >= 1 && value <= 10)
+function distractors(n: number, ceiling: number): number[] {
+  const candidates = [n - 2, n - 1, n + 1, n + 2, n + 3].filter((value) => value >= 1 && value <= ceiling)
   const picked = shuffle(candidates).slice(0, 2)
   let guard = 0
   while (picked.length < 2 && guard < 20) {
-    const extra = randInt(1, 10)
+    const extra = randInt(1, ceiling)
     if (extra !== n && !picked.includes(extra)) picked.push(extra)
     guard += 1
   }
   return shuffle([n, ...picked])
 }
 
-export function makeCountRounds(): CountRound[] {
+export function makeCountRounds(age: AgeId): CountRound[] {
+  const max = age === 'y4' ? 4 : age === 'y5' ? 6 : 8
   const kinds = shuffle(COUNT_KINDS)
-  const numbers = shuffle([1, 2, 3, 4, 5, 6, 7, 8])
+  const numbers = shuffle(Array.from({ length: max }, (_, index) => index + 1))
   return numbers.map((n, index) => ({
     emoji: kinds[index].emoji,
     question: kinds[index].question,
     n,
-    options: distractors(n),
+    options: distractors(n, max + 2),
   }))
 }
 
@@ -280,9 +305,11 @@ function mixOdd(round: OddRound): OddRound {
   return { ...round, items, answer: items.findIndex((item) => item.label === answerLabel) }
 }
 
-export function makeOddRounds(): OddRound[] {
-  return shuffle(ODD_BANK)
-    .slice(0, 8)
+export function makeOddRounds(age: AgeId): OddRound[] {
+  const bank = age === 'y6' ? ODD_BANK.slice(0, 6) : ODD_BANK
+  const total = age === 'y6' ? 6 : 8
+  return shuffle(bank)
+    .slice(0, total)
     .map((round) => mixOdd(round))
 }
 
@@ -311,9 +338,11 @@ const SEQ_BANK: SeqRound[] = [
   },
 ]
 
-export function makeSeqRounds(): SeqRound[] {
-  return shuffle(SEQ_BANK)
-    .slice(0, 8)
+export function makeSeqRounds(age: AgeId): SeqRound[] {
+  const bank = age === 'y79' ? SEQ_BANK.slice(0, 7) : SEQ_BANK
+  const total = age === 'y79' ? 6 : 8
+  return shuffle(bank)
+    .slice(0, total)
     .map((round) => ({ ...round, options: shuffle(round.options) }))
 }
 
@@ -331,17 +360,22 @@ function times(a: number, b: number): MathRound {
   return { text: `${a} × ${b}`, say: `${a} умножить на ${b}`, answer: a * b }
 }
 
-function makeMath(index: number): MathRound {
+function makeMath(index: number, age: AgeId): MathRound {
+  if (age === 'y79') {
+    if (index < 4) return plus(randInt(1, 10), randInt(1, 9))
+    const b = randInt(1, 8)
+    return minus(b + randInt(1, 10), b)
+  }
   if (index < 2) return plus(randInt(2, 9), randInt(1, 9))
   if (index < 4) return plus(randInt(10, 40), randInt(3, 19))
   if (index < 6) {
     const b = randInt(2, 15)
-    const a = b + randInt(1, 20)
-    return minus(a, b)
+    return minus(b + randInt(1, 20), b)
   }
   return times(randInt(2, 9), randInt(2, 9))
 }
 
-export function makeMathRounds(): MathRound[] {
-  return Array.from({ length: 8 }, (_, index) => makeMath(index))
+export function makeMathRounds(age: AgeId): MathRound[] {
+  const total = age === 'y79' ? 6 : 8
+  return Array.from({ length: total }, (_, index) => makeMath(index, age))
 }

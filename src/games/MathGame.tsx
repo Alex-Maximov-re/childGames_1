@@ -6,8 +6,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { DigitPad, QuizFrame, Speak, useSpeak } from '../ui'
 
-export function MathGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeMathRounds)
+export function MathGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeMathRounds(age))
   const quiz = useQuiz(rounds.length)
   const [input, setInput] = useState('')
   const [flash, setFlash] = useState<'good' | 'bad' | ''>('')
@@ -60,6 +60,7 @@ export function MathGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Примеры"
       gameId="math"
       step={quiz.step}

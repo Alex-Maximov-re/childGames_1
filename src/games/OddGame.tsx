@@ -6,8 +6,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function OddGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeOddRounds)
+export function OddGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeOddRounds(age))
   const quiz = useQuiz(rounds.length)
   const [picked, setPicked] = useState<number | null>(null)
   const round = rounds[quiz.step]
@@ -22,6 +22,7 @@ export function OddGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Что лишнее"
       gameId="odd"
       step={quiz.step}

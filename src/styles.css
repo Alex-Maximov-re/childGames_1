@@ -134,7 +134,7 @@ h1, h2, p { overflow-wrap: break-word; }
 
 .nav-links {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
   margin-left: auto;
@@ -184,10 +184,14 @@ h1, h2, p { overflow-wrap: break-word; }
     calc(16px + env(safe-area-inset-left));
 }
 
-.frame[data-age='little'] { --accent: #ff6b4a; }
-.frame[data-age='middle'] { --accent: #1f8fe0; }
-.frame[data-age='big'] { --accent: #6d5bd0; }
+.frame[data-age='y12'],
 .frame[data-age='home'] { --accent: #ff6b4a; }
+.frame[data-age='y3'] { --accent: #ff8a1e; }
+.frame[data-age='y4'] { --accent: #d9a400; }
+.frame[data-age='y5'] { --accent: #2fbf71; }
+.frame[data-age='y6'] { --accent: #1f8fe0; }
+.frame[data-age='y79'] { --accent: #6d5bd0; }
+.frame[data-age='y10'] { --accent: #0f766e; }
 
 .muted { color: var(--ink-soft); margin: 0; }
 .center { text-align: center; }
@@ -260,9 +264,13 @@ h1, h2, p { overflow-wrap: break-word; }
   box-shadow: var(--shadow);
 }
 
-.age-card.little { background: linear-gradient(165deg, #fffaf3 0%, #ffe0c2 100%); }
-.age-card.middle { background: linear-gradient(165deg, #f7fcff 0%, #d4efff 100%); }
-.age-card.big { background: linear-gradient(165deg, #fbfaff 0%, #e4defe 100%); }
+.age-card.y12 { background: linear-gradient(165deg, #fffaf3 0%, #ffe0c2 100%); }
+.age-card.y3 { background: linear-gradient(165deg, #fff8ef 0%, #ffd7b0 100%); }
+.age-card.y4 { background: linear-gradient(165deg, #fffdf3 0%, #ffe7a3 100%); }
+.age-card.y5 { background: linear-gradient(165deg, #f5fff8 0%, #c8f5d8 100%); }
+.age-card.y6 { background: linear-gradient(165deg, #f7fcff 0%, #d4efff 100%); }
+.age-card.y79 { background: linear-gradient(165deg, #fbfaff 0%, #e4defe 100%); }
+.age-card.y10 { background: linear-gradient(165deg, #f4fffc 0%, #c9f3ea 100%); }
 .age-card.current { box-shadow: 0 0 0 3px var(--ink), var(--shadow); }
 .age-card strong { font-size: 1.7rem; }
 .age-copy { display: grid; gap: 4px; justify-items: start; }
@@ -733,7 +741,7 @@ h1, h2, p { overflow-wrap: break-word; }
 }
 
 @media (min-width: 760px) {
-  .age-grid { grid-template-columns: repeat(3, 1fr); }
+  .age-grid { grid-template-columns: repeat(4, 1fr); }
   .game-grid { grid-template-columns: 1fr 1fr; }
   .memory { grid-template-columns: repeat(4, 1fr); max-width: 520px; }
 }

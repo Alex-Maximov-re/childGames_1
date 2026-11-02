@@ -7,8 +7,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function ShapeGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeShapeRounds)
+export function ShapeGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeShapeRounds(age))
   const quiz = useQuiz(rounds.length)
   const missed = useRef(false)
   const [wrong, setWrong] = useState<string | null>(null)
@@ -25,6 +25,7 @@ export function ShapeGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Фигуры"
       gameId="shapes"
       step={quiz.step}

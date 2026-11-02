@@ -6,8 +6,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function CountGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeCountRounds)
+export function CountGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeCountRounds(age))
   const quiz = useQuiz(rounds.length)
   const [picked, setPicked] = useState<number | null>(null)
   const round = rounds[quiz.step]
@@ -20,6 +20,7 @@ export function CountGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Сосчитай"
       gameId="count"
       step={quiz.step}

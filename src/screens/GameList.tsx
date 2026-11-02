@@ -1,4 +1,4 @@
-import { ages, games } from '../catalog'
+import { ages, games, progressKey } from '../catalog'
 import { useSave } from '../save'
 import { cx } from '../text'
 import type { AgeId, GameId } from '../types'
@@ -53,7 +53,7 @@ export function GameList({
             <span className="body">
               <strong>{game.title}</strong>
               <span className="muted">{game.blurb}</span>
-              <Stars value={save.stars[game.id] ?? 0} />
+              <Stars value={save.stars[progressKey(age, game.id)] ?? 0} />
             </span>
           </button>
         ))}

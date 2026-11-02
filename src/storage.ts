@@ -1,10 +1,10 @@
 import { GAME_IDS } from './catalog'
-import type { AgeId, GameId, Platform } from './types'
+import { AGE_IDS, type AgeId, type Platform } from './types'
 
 const KEY_BY_PLATFORM: Record<Platform, string> = {
-  web: 'luchik-web-v1',
-  android: 'luchik-android-v1',
-  ios: 'luchik-save-v1',
+  web: 'luchik-web-v2',
+  android: 'luchik-android-v2',
+  ios: 'luchik-save-v2',
 }
 
 let storageKey: string = KEY_BY_PLATFORM.ios
@@ -16,7 +16,7 @@ export function setStorageScope(platform: Platform): void {
 export type SaveData = {
   sound: boolean
   age: AgeId | null
-  stars: Partial<Record<GameId, number>>
+  stars: Record<string, number>
 }
 
 function emptySave(): SaveData {
@@ -24,16 +24,19 @@ function emptySave(): SaveData {
 }
 
 function isAge(value: unknown): value is AgeId {
-  return value === 'little' || value === 'middle' || value === 'big'
+  return typeof value === 'string' && (AGE_IDS as readonly string[]).includes(value)
 }
 
-function cleanStars(input: unknown): Partial<Record<GameId, number>> {
+function cleanStars(input: unknown): Record<string, number> {
   if (!input || typeof input !== 'object') return {}
   const source = input as Record<string, unknown>
-  const stars: Partial<Record<GameId, number>> = {}
-  for (const id of GAME_IDS) {
-    const value = source[id]
-    if (value === 1 || value === 2 || value === 3) stars[id] = value
+  const stars: Record<string, number> = {}
+  for (const age of AGE_IDS) {
+    for (const id of GAME_IDS) {
+      const key = `${age}:${id}`
+      const value = source[key]
+      if (value === 1 || value === 2 || value === 3) stars[key] = value
+    }
   }
   return stars
 }

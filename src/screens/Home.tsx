@@ -1,5 +1,5 @@
 import { Luchik } from '../art'
-import { ages, games } from '../catalog'
+import { ages, games, progressKey } from '../catalog'
 import { usePlatform } from '../platform'
 import { platformFoot, platformSubtitle } from '../product'
 import { useSave } from '../save'
@@ -9,7 +9,7 @@ import type { AgeId } from '../types'
 export function Home({ onAge }: { onAge: (age: AgeId) => void }) {
   const platform = usePlatform()
   const { save } = useSave()
-  const earned = games.reduce((sum, game) => sum + (save.stars[game.id] ?? 0), 0)
+  const earned = games.reduce((sum, game) => sum + (save.stars[progressKey(game.age, game.id)] ?? 0), 0)
   const max = games.length * 3
 
   return (
@@ -40,7 +40,6 @@ export function Home({ onAge }: { onAge: (age: AgeId) => void }) {
               {item.emoji}
             </span>
             <span className="age-copy">
-              <span className="pill">{item.range}</span>
               <strong>{item.title}</strong>
               <span className="muted">{item.text}</span>
             </span>

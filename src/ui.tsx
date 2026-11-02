@@ -2,8 +2,9 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { Luchik } from './art'
 import { useSave } from './save'
 import { playTap, playWin, speak } from './sound'
+import { progressKey } from './catalog'
 import { cx } from './text'
-import type { GameId, NextGame, StarScore } from './types'
+import type { AgeId, GameId, NextGame, StarScore } from './types'
 
 const PRAISE: Record<StarScore, string> = {
   3: 'Блестяще!',
@@ -104,6 +105,7 @@ function Confetti() {
 }
 
 export function Finish({
+  age,
   gameId,
   stars,
   detail,
@@ -112,6 +114,7 @@ export function Finish({
   next,
   prize,
 }: {
+  age: AgeId
   gameId: GameId
   stars: StarScore
   detail: string
@@ -121,12 +124,13 @@ export function Finish({
   prize?: ReactNode
 }) {
   const { record, save } = useSave()
-  const stored = save.stars[gameId] ?? 0
+  const key = progressKey(age, gameId)
+  const stored = save.stars[key] ?? 0
   useEffect(() => {
-    record(gameId, stars)
+    record(key, stars)
     const id = window.setTimeout(() => playWin(), 40)
     return () => window.clearTimeout(id)
-  }, [gameId, stars, record])
+  }, [key, stars, record])
 
   return (
     <section className="finish">
@@ -155,6 +159,7 @@ export function Finish({
 }
 
 export function QuizFrame({
+  age,
   title,
   gameId,
   step,
@@ -167,6 +172,7 @@ export function QuizFrame({
   next,
   children,
 }: {
+  age: AgeId
   title: string
   gameId: GameId
   step: number
@@ -189,6 +195,7 @@ export function QuizFrame({
     >
       {done ? (
         <Finish
+          age={age}
           gameId={gameId}
           stars={stars}
           detail={`С первой попытки: ${correct} из ${total}`}

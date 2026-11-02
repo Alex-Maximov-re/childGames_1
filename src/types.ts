@@ -1,6 +1,8 @@
 export type Platform = 'web' | 'android' | 'ios'
 
-export type AgeId = 'little' | 'middle' | 'big'
+export const AGE_IDS = ['y12', 'y3', 'y4', 'y5', 'y6', 'y79', 'y10'] as const
+
+export type AgeId = (typeof AGE_IDS)[number]
 
 export type GameId =
   | 'colors'
@@ -23,6 +25,7 @@ export type NextGame = {
 }
 
 export type GameProps = {
+  age: AgeId
   onExit: () => void
   onReplay: () => void
   next?: NextGame

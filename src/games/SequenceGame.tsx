@@ -6,8 +6,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function SequenceGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeSeqRounds)
+export function SequenceGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeSeqRounds(age))
   const quiz = useQuiz(rounds.length)
   const [picked, setPicked] = useState<number | null>(null)
   const round = rounds[quiz.step]
@@ -20,6 +20,7 @@ export function SequenceGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Продолжи ряд"
       gameId="sequence"
       step={quiz.step}

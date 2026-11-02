@@ -24,7 +24,7 @@ export function Nav({
     { id: 'home', label: 'Главная', onClick: onHome },
     ...ages.map((age) => ({
       id: age.id as NavPlace,
-      label: age.title,
+      label: age.menu,
       onClick: () => onAge(age.id),
     })),
     { id: 'parents', label: 'Родителям', onClick: onParents },

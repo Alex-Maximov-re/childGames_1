@@ -6,8 +6,8 @@ import { cx } from '../text'
 import type { GameProps } from '../types'
 import { QuizFrame, Speak, useSpeak } from '../ui'
 
-export function VoiceGame({ onExit, onReplay, next }: GameProps) {
-  const [rounds] = useState(makeVoiceRounds)
+export function VoiceGame({ age, onExit, onReplay, next }: GameProps) {
+  const [rounds] = useState(() => makeVoiceRounds(age))
   const quiz = useQuiz(rounds.length)
   const missed = useRef(false)
   const [wrong, setWrong] = useState<string | null>(null)
@@ -24,6 +24,7 @@ export function VoiceGame({ onExit, onReplay, next }: GameProps) {
 
   return (
     <QuizFrame
+      age={age}
       title="Кто говорит"
       gameId="voices"
       step={quiz.step}

@@ -5,14 +5,15 @@ import { cx } from '../text'
 import type { GameProps, StarScore } from '../types'
 import { Finish, Shell, useSpeak } from '../ui'
 
-function memoryStars(moves: number): StarScore {
-  if (moves <= 10) return 3
-  if (moves <= 16) return 2
+function memoryStars(moves: number, pairs: number): StarScore {
+  if (moves <= pairs + 2) return 3
+  if (moves <= pairs * 2 + 2) return 2
   return 1
 }
 
-export function MemoryGame({ onExit, onReplay, next }: GameProps) {
-  const [deck] = useState(makeDeck)
+export function MemoryGame({ age, onExit, onReplay, next }: GameProps) {
+  const pairs = age === 'y5' ? 3 : 6
+  const [deck] = useState(() => makeDeck(pairs))
   const [open, setOpen] = useState<number[]>([])
   const [known, setKnown] = useState<number[]>([])
   const [moves, setMoves] = useState(0)
@@ -54,7 +55,7 @@ export function MemoryGame({ onExit, onReplay, next }: GameProps) {
       playGood()
       if (nextKnown.length === deck.length) {
         doneRef.current = true
-        setStars(memoryStars(nextMoves))
+        setStars(memoryStars(nextMoves, pairs))
         setDone(true)
       }
       return
@@ -78,6 +79,7 @@ export function MemoryGame({ onExit, onReplay, next }: GameProps) {
     >
       {done ? (
         <Finish
+          age={age}
           gameId="memory"
           stars={stars}
           detail={`Ходы: ${moves}`}

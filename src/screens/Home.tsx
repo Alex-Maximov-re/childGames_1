@@ -6,7 +6,7 @@ import { useSave } from '../save'
 import { cx, plural } from '../text'
 import type { AgeId } from '../types'
 
-export function Home({ onAge, onParents }: { onAge: (age: AgeId) => void; onParents: () => void }) {
+export function Home({ onAge }: { onAge: (age: AgeId) => void }) {
   const platform = usePlatform()
   const { save } = useSave()
   const earned = games.reduce((sum, game) => sum + (save.stars[game.id] ?? 0), 0)
@@ -22,9 +22,6 @@ export function Home({ onAge, onParents }: { onAge: (age: AgeId) => void; onPare
             <p className="muted">{platformSubtitle(platform)}</p>
           </div>
         </div>
-        <button type="button" className="ghost" onClick={onParents}>
-          Родителям
-        </button>
       </header>
       <p className="score">
         {earned === 0

@@ -4,6 +4,7 @@ import { gameViews } from './games'
 import { setBackListener, usePlatform } from './platform'
 import { platformTitle } from './product'
 import { unlockAudio } from './sound'
+import { Nav, type NavPlace } from './Nav'
 import { Home } from './screens/Home'
 import { GameList } from './screens/GameList'
 import { ParentGate, Parents } from './screens/Parents'
@@ -69,6 +70,8 @@ export function App() {
   }, [])
 
   const ageTheme = screen.name === 'list' || screen.name === 'play' ? screen.age : 'home'
+  const place: NavPlace =
+    screen.name === 'home' ? 'home' : screen.name === 'gate' || screen.name === 'parents' ? 'parents' : screen.age
 
   return (
     <>
@@ -77,7 +80,17 @@ export function App() {
         <span />
         <span />
       </div>
-      <div className="app" data-age={ageTheme} data-platform={platform}>
+      <div className="frame" data-age={ageTheme} data-platform={platform}>
+      <Nav
+        place={place}
+        onHome={() => setScreen({ name: 'home' })}
+        onAge={(age) => {
+          setAge(age)
+          setScreen({ name: 'list', age })
+        }}
+        onParents={() => setScreen((current) => (current.name === 'parents' ? current : { name: 'gate' }))}
+      />
+      <div className="app">
         <Guard key={loc}>
           {screen.name === 'home' && (
             <Home
@@ -85,7 +98,6 @@ export function App() {
                 setAge(age)
                 setScreen({ name: 'list', age })
               }}
-              onParents={() => setScreen({ name: 'gate' })}
             />
           )}
           {screen.name === 'list' && (
@@ -120,6 +132,7 @@ export function App() {
           )}
           {screen.name === 'parents' && <Parents onExit={() => setScreen({ name: 'home' })} />}
         </Guard>
+      </div>
       </div>
     </>
   )

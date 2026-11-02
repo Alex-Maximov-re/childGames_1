@@ -379,3 +379,39 @@ export function makeMathRounds(age: AgeId): MathRound[] {
   const total = age === 'y79' ? 6 : 8
   return Array.from({ length: total }, (_, index) => makeMath(index, age))
 }
+
+export type HalfAnimal = { id: string; name: string; emoji: string; home: boolean }
+
+const HALF_ANIMALS: HalfAnimal[] = [
+  { id: 'cow', name: 'корова', emoji: '🐄', home: true },
+  { id: 'dog', name: 'собака', emoji: '🐕', home: true },
+  { id: 'cat', name: 'кошка', emoji: '🐈', home: true },
+  { id: 'horse', name: 'лошадь', emoji: '🐎', home: true },
+  { id: 'pig', name: 'свинья', emoji: '🐖', home: true },
+  { id: 'sheep', name: 'овца', emoji: '🐑', home: true },
+  { id: 'goat', name: 'коза', emoji: '🐐', home: true },
+  { id: 'hen', name: 'курица', emoji: '🐓', home: true },
+  { id: 'duck', name: 'утка', emoji: '🦆', home: true },
+  { id: 'rabbit', name: 'кролик', emoji: '🐇', home: true },
+  { id: 'lion', name: 'лев', emoji: '🦁', home: false },
+  { id: 'elephant', name: 'слон', emoji: '🐘', home: false },
+  { id: 'giraffe', name: 'жираф', emoji: '🦒', home: false },
+  { id: 'zebra', name: 'зебра', emoji: '🦓', home: false },
+  { id: 'bear', name: 'медведь', emoji: '🐻', home: false },
+  { id: 'fox', name: 'лиса', emoji: '🦊', home: false },
+  { id: 'wolf', name: 'волк', emoji: '🐺', home: false },
+  { id: 'monkey', name: 'обезьяна', emoji: '🐵', home: false },
+  { id: 'tiger', name: 'тигр', emoji: '🐯', home: false },
+  { id: 'penguin', name: 'пингвин', emoji: '🐧', home: false },
+]
+
+export type HalfRound = { animal: HalfAnimal; options: HalfAnimal[] }
+
+export function makeHalfRounds(): HalfRound[] {
+  const deck = shuffle(HALF_ANIMALS)
+  return deck.map((animal) => {
+    const others = shuffle(HALF_ANIMALS.filter((item) => item.id !== animal.id && item.home !== animal.home))
+    const same = shuffle(HALF_ANIMALS.filter((item) => item.id !== animal.id && item.home === animal.home))
+    return { animal, options: shuffle([animal, ...[...others, ...same].slice(0, 2)]) }
+  })
+}

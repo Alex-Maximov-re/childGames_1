@@ -4,6 +4,7 @@ import { ColorGame } from './ColorGame'
 import { CountGame } from './CountGame'
 import { MathGame } from './MathGame'
 import { MemoryGame } from './MemoryGame'
+import { HalvesGame } from './HalvesGame'
 import { MoleGame } from './MoleGame'
 import { OddGame } from './OddGame'
 import { PuzzleGame } from './PuzzleGame'
@@ -22,4 +23,5 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   sequence: SequenceGame,
   puzzle: PuzzleGame,
   mole: MoleGame,
+  halves: HalvesGame,
 }

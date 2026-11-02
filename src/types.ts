@@ -15,6 +15,7 @@ export type GameId =
   | 'sequence'
   | 'puzzle'
   | 'mole'
+  | 'halves'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

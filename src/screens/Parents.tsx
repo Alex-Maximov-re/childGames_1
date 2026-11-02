@@ -156,6 +156,13 @@ export function Parents({ onExit }: { onExit: () => void }) {
         )}
         {note && <p className="hint">{note}</p>}
       </section>
+      <section className="panel">
+        <h2>Обратная связь</h2>
+        <p>
+          Просим предоставить обратную связь по приложению и все пожелания для улучшения на почту{' '}
+          <a href="mailto:aleks.maksimov.re@gmail.com">aleks.maksimov.re@gmail.com</a>.
+        </p>
+      </section>
       <section className="panel privacy">
         <h2>Без рекламы и без анкет</h2>
         <p>Лучик не просит имя, почту и фото. В игре нет рекламы и покупок.</p>

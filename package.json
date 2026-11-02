@@ -10,6 +10,7 @@
     "dev:ios": "vite --config apps/ios/vite.config.ts",
     "build": "npm run build:web && npm run build:android && npm run build:ios",
     "build:web": "tsc --noEmit -p apps/web/tsconfig.json && vite build --config apps/web/vite.config.ts",
+    "build:pages": "tsc --noEmit -p apps/web/tsconfig.json && vite build --config apps/web/vite.config.ts",
     "build:android": "tsc --noEmit -p apps/android/tsconfig.json && vite build --config apps/android/vite.config.ts",
     "build:ios": "tsc --noEmit -p apps/ios/tsconfig.json && vite build --config apps/ios/vite.config.ts",
     "preview:web": "vite preview --config apps/web/vite.config.ts",

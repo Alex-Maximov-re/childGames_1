@@ -6,7 +6,9 @@
 
 | Приложение | Папка | Адрес для проверки | Куда публиковать |
 | --- | --- | --- | --- |
-| Веб | `apps/web` | http://localhost:5173 | любой хостинг статических файлов |
+| Веб | `apps/web` | https://alex-maximov-re.github.io/childGames_1/ | GitHub Pages |
+
+Сайт собирает GitHub Actions из `apps/web` и публикует готовую игру. Если выложить корень репозитория, Pages показывает этот README, а не приложение.
 | Android | `apps/android` | http://localhost:5174 | Google Play |
 | iOS | `apps/ios` | http://localhost:5175 | App Store |
 

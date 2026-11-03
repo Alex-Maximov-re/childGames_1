@@ -1263,6 +1263,41 @@ h1, h2, p { overflow-wrap: break-word; }
   box-shadow: 0 16px 30px rgba(80, 42, 20, 0.22);
 }
 
+.xo-modes,
+.xo-actions {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 420px);
+  margin: 18px auto 0;
+}
+
+.xo-mode { min-height: 72px; font-size: 1.15rem; }
+
+.xo-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: min(100%, 360px);
+  margin: 12px auto 0;
+}
+
+.xo-cell {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 22px;
+  background: white;
+  box-shadow: var(--shadow);
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 10vw, 3.4rem);
+  font-weight: 800;
+  color: transparent;
+}
+
+.xo-cell.x { color: #ff6b4a; }
+.xo-cell.o { color: #1f8fe0; }
+.xo-cell.win { background: #e7f8ee; }
+.xo-cell:disabled { opacity: 1; }
+
 @media (hover: hover) {
   .age-card, .game-card, .btn, .choice, .chip { transition: transform 0.15s ease; }
   .age-card:hover, .game-card:hover { transform: translateY(-2px); }

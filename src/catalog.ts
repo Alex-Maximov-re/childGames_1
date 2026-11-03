@@ -14,6 +14,7 @@ export const GAME_IDS: GameId[] = [
   'halves',
   'bubbles',
   'ducks',
+  'tictactoe',
 ]
 
 export type AgeInfo = {
@@ -83,7 +84,7 @@ export const ages: AgeInfo[] = [
     title: '7–9 лет',
     menu: '7–9',
     range: '7–9 лет',
-    text: 'Логика, примеры без умножения и картинка',
+    text: 'Логика, примеры, картинка и крестики-нолики',
     emoji: '🔍',
   },
   {
@@ -119,6 +120,7 @@ export const games: GameInfo[] = [
   { id: 'math', age: 'y79', emoji: '➕', title: 'Примеры', blurb: 'Сложение и вычитание' },
   { id: 'sequence', age: 'y79', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Ряды с одинаковым шагом' },
   { id: 'puzzle', age: 'y79', emoji: '🧩', title: 'Картинка', blurb: 'Короткая сборка рисунка' },
+  { id: 'tictactoe', age: 'y79', emoji: '⭕', title: 'Крестики-нолики', blurb: 'Вдвоём или против компьютера' },
   { id: 'math', age: 'y10', emoji: '➕', title: 'Примеры', blurb: 'Сложение, вычитание и умножение' },
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },

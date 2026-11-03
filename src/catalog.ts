@@ -15,6 +15,7 @@ export const GAME_IDS: GameId[] = [
   'bubbles',
   'ducks',
   'tictactoe',
+  'ships',
 ]
 
 export type AgeInfo = {
@@ -84,7 +85,7 @@ export const ages: AgeInfo[] = [
     title: '7–9 лет',
     menu: '7–9',
     range: '7–9 лет',
-    text: 'Логика, примеры, картинка и крестики-нолики',
+    text: 'Логика, примеры, картинка, крестики-нолики и морской бой',
     emoji: '🔍',
   },
   {
@@ -92,7 +93,7 @@ export const ages: AgeInfo[] = [
     title: '10+',
     menu: '10+',
     range: '10+',
-    text: 'Умножение, ряды посложнее и головоломка',
+    text: 'Умножение, ряды посложнее, головоломка и морской бой',
     emoji: '💡',
   },
 ]
@@ -121,7 +122,9 @@ export const games: GameInfo[] = [
   { id: 'sequence', age: 'y79', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Ряды с одинаковым шагом' },
   { id: 'puzzle', age: 'y79', emoji: '🧩', title: 'Картинка', blurb: 'Короткая сборка рисунка' },
   { id: 'tictactoe', age: 'y79', emoji: '⭕', title: 'Крестики-нолики', blurb: 'Вдвоём или против компьютера' },
+  { id: 'ships', age: 'y79', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
   { id: 'math', age: 'y10', emoji: '➕', title: 'Примеры', blurb: 'Сложение, вычитание и умножение' },
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },
+  { id: 'ships', age: 'y10', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
 ]

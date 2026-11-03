@@ -9,6 +9,7 @@ import { MoleGame } from './MoleGame'
 import { BubbleGame } from './BubbleGame'
 import { DuckGame } from './DuckGame'
 import { TicTacToeGame } from './TicTacToeGame'
+import { SeaGame } from './SeaGame'
 import { OddGame } from './OddGame'
 import { PuzzleGame } from './PuzzleGame'
 import { SequenceGame } from './SequenceGame'
@@ -30,4 +31,5 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   bubbles: BubbleGame,
   ducks: DuckGame,
   tictactoe: TicTacToeGame,
+  ships: SeaGame,
 }

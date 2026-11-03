@@ -76,10 +76,11 @@ function AnimalFace({ kind, fill }: { kind: Kind; fill: string }) {
       )}
       {kind === 'fish' && (
         <>
-          <ellipse cx="34" cy="42" rx="20" ry="15" fill={fill} />
-          <polygon points="72,42 50,26 50,58" fill={fill} />
-          <circle cx="24" cy="38" r="2.4" fill="#2a2340" />
-          <path d="M18 44 H42" stroke="rgba(255,255,255,0.55)" strokeWidth="3" strokeLinecap="round" />
+          <polygon points="2,24 28,40 14,42" fill={fill} />
+          <polygon points="2,60 28,44 14,42" fill={fill} />
+          <ellipse cx="48" cy="42" rx="20" ry="15" fill={fill} />
+          <circle cx="58" cy="38" r="2.4" fill="#2a2340" />
+          <path d="M38 44 H56" stroke="rgba(255,255,255,0.55)" strokeWidth="3" strokeLinecap="round" />
         </>
       )}
       {kind === 'chick' && (

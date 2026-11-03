@@ -149,8 +149,8 @@ export function Finish({
           К списку игр
         </button>
         {next && (
-          <button type="button" className="btn primary next-game" onClick={next.onGo}>
-            <span className="next-kicker">Следующая игра</span>
+          <button type="button" className="btn next-game" onClick={next.onGo}>
+            <span className="next-kicker">Дальше</span>
             <span className="next-title">
               <span className="next-emoji" aria-hidden="true">
                 {next.emoji}

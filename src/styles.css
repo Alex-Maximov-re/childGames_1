@@ -932,6 +932,9 @@ h1, h2, p { overflow-wrap: break-word; }
 .row-actions { width: min(100%, 420px); display: grid; gap: 10px; }
 .row-actions .btn, .row-actions .ghost { width: 100%; }
 .btn.next-game {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   min-height: 88px;
   margin-top: 6px;
   display: flex;
@@ -941,7 +944,24 @@ h1, h2, p { overflow-wrap: break-word; }
   gap: 2px;
   line-height: 1.15;
   padding: 14px 20px;
+  background: #d7f3c4;
+  color: #23482d;
+  box-shadow: 0 10px 24px rgba(70, 120, 55, 0.14);
 }
+.btn.next-game::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  width: 42%;
+  top: -30%;
+  bottom: -30%;
+  left: -18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 70%);
+  animation: next-gleam 4.8s ease-in-out infinite;
+  pointer-events: none;
+}
+.btn.next-game > * { position: relative; z-index: 1; }
 .next-kicker { font-size: 0.95rem; font-weight: 800; }
 .next-title {
   display: inline-flex;
@@ -952,6 +972,11 @@ h1, h2, p { overflow-wrap: break-word; }
   font-weight: 800;
 }
 .next-emoji { font-size: 1.7rem; line-height: 1; }
+
+@keyframes next-gleam {
+  0%, 100% { transform: translateX(0); opacity: 0.35; }
+  50% { transform: translateX(230%); opacity: 0.7; }
+}
 .prize { width: min(100%, 280px); border-radius: 20px; }
 
 .confetti { position: absolute; inset: 0; pointer-events: none; }
@@ -1055,4 +1080,5 @@ h1, h2, p { overflow-wrap: break-word; }
   .half-pane.slot.bad,
   .half-nope { animation: none; }
   .half-spark, .half-seam { display: none; }
+  .btn.next-game::before { animation: none; opacity: 0.4; }
 }

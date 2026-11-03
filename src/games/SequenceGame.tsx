@@ -4,7 +4,7 @@ import { useQuiz } from '../quiz'
 import { playBad, playGood } from '../sound'
 import { cx } from '../text'
 import type { GameProps } from '../types'
-import { QuizFrame, Speak, useSpeak } from '../ui'
+import { QuizFrame, Speak, useSpeak, Cheer } from '../ui'
 
 export function SequenceGame({ age, onExit, onReplay, next }: GameProps) {
   const [rounds] = useState(() => makeSeqRounds(age))
@@ -62,6 +62,7 @@ export function SequenceGame({ age, onExit, onReplay, next }: GameProps) {
                 }}
               >
                 {option}
+                {picked !== null && option === round.answer && <Cheer />}
               </button>
             ))}
           </div>

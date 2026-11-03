@@ -422,6 +422,51 @@ h1, h2, p { overflow-wrap: break-word; }
 .shape-art { width: 84px; height: 84px; }
 .shape-btn.pop { outline: 4px solid #167a45; }
 
+.shape-btn,
+.choice { position: relative; }
+
+.cheer {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 0;
+  height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.cheer i {
+  --x: 0px;
+  --y: -52px;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  background: #fff6dc;
+  box-shadow: 0 0 0 1.5px rgba(110, 82, 28, 0.28);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: cheer-pop 0.52s ease-out forwards;
+}
+.cheer i:nth-child(1) { --y: -56px; }
+.cheer i:nth-child(2) { --x: 50px; --y: -18px; animation-delay: 0.03s; background: #f6e4b0; }
+.cheer i:nth-child(3) { --x: -50px; --y: -16px; animation-delay: 0.02s; }
+.cheer i:nth-child(4) { --x: 26px; --y: 34px; width: 10px; height: 10px; margin: -5px 0 0 -5px; }
+.cheer i:nth-child(5) {
+  --x: -24px;
+  --y: 32px;
+  width: 9px;
+  height: 9px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  clip-path: none;
+  background: #f3e0a4;
+}
+
+@keyframes cheer-pop {
+  0% { transform: translate(0, 0) scale(0.25); opacity: 0; }
+  30% { opacity: 0.85; }
+  100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 0; }
+}
+
 .hero { text-align: center; font-size: clamp(4.2rem, 18vw, 6rem); line-height: 1; margin: 4px 0 12px; }
 
 .choices, .quad, .num-choices { display: grid; gap: 10px; }
@@ -1081,4 +1126,5 @@ h1, h2, p { overflow-wrap: break-word; }
   .half-nope { animation: none; }
   .half-spark, .half-seam { display: none; }
   .btn.next-game::before { animation: none; opacity: 0.4; }
+  .cheer { display: none; }
 }

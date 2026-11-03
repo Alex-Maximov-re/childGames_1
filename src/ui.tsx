@@ -104,6 +104,18 @@ function Confetti() {
   )
 }
 
+export function Cheer() {
+  return (
+    <span className="cheer" aria-hidden="true">
+      <i />
+      <i />
+      <i />
+      <i />
+      <i />
+    </span>
+  )
+}
+
 export function Finish({
   age,
   gameId,

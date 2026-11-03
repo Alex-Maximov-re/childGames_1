@@ -4,7 +4,7 @@ import { useQuiz } from '../quiz'
 import { playBad, playGood } from '../sound'
 import { cx } from '../text'
 import type { GameProps } from '../types'
-import { QuizFrame, Speak, useSpeak } from '../ui'
+import { QuizFrame, Speak, useSpeak, Cheer } from '../ui'
 
 export function VoiceGame({ age, onExit, onReplay, next }: GameProps) {
   const [rounds] = useState(() => makeVoiceRounds(age))
@@ -67,6 +67,7 @@ export function VoiceGame({ age, onExit, onReplay, next }: GameProps) {
                 }}
               >
                 {sound}
+                {goodId === sound && <Cheer />}
               </button>
             ))}
           </div>

@@ -4,7 +4,7 @@ import { useQuiz } from '../quiz'
 import { playBad, playGood } from '../sound'
 import { cx } from '../text'
 import type { GameProps } from '../types'
-import { QuizFrame, Speak, useSpeak } from '../ui'
+import { QuizFrame, Speak, useSpeak, Cheer } from '../ui'
 
 export function OddGame({ age, onExit, onReplay, next }: GameProps) {
   const [rounds] = useState(() => makeOddRounds(age))
@@ -63,6 +63,7 @@ export function OddGame({ age, onExit, onReplay, next }: GameProps) {
                   {item.emoji}
                 </span>
                 {item.label}
+                {picked !== null && index === round.answer && <Cheer />}
               </button>
             ))}
           </div>

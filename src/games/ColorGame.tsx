@@ -4,7 +4,7 @@ import { useQuiz } from '../quiz'
 import type { GameProps } from '../types'
 import { playBad, playGood } from '../sound'
 import { cx } from '../text'
-import { QuizFrame, Speak, useSpeak } from '../ui'
+import { QuizFrame, Speak, useSpeak, Cheer } from '../ui'
 
 export function ColorGame({ age, onExit, onReplay, next }: GameProps) {
   const [rounds] = useState(() => makeColorRounds(age))
@@ -64,7 +64,9 @@ export function ColorGame({ age, onExit, onReplay, next }: GameProps) {
                   setWrong(color.id)
                   playBad()
                 }}
-              />
+              >
+                {goodId === color.id && <Cheer />}
+              </button>
             ))}
           </div>
           <p className="hint" aria-live="polite">

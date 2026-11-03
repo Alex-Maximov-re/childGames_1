@@ -1,7 +1,7 @@
 import { Luchik } from '../art'
 import { ages, games, progressKey } from '../catalog'
 import { usePlatform } from '../platform'
-import { platformFoot, platformSubtitle } from '../product'
+import { platformFoot, platformSubtitle, APP_VERSION } from '../product'
 import { useSave } from '../save'
 import { cx, plural } from '../text'
 import type { AgeId } from '../types'
@@ -13,7 +13,7 @@ export function Home({ onAge }: { onAge: (age: AgeId) => void }) {
   const max = games.length * 3
 
   return (
-    <main>
+    <main className="home">
       <header className="top-row">
         <div className="brand">
           <Luchik />
@@ -47,6 +47,7 @@ export function Home({ onAge }: { onAge: (age: AgeId) => void }) {
         ))}
       </div>
       <p className="foot">{platformFoot(platform)}</p>
+      <p className="home-version">v {APP_VERSION}</p>
     </main>
   )
 }

@@ -198,6 +198,22 @@ h1, h2, p { overflow-wrap: break-word; }
 .score { font-weight: 800; margin: 18px 0 14px; }
 .foot { margin: 22px 0 0; text-align: center; color: var(--ink-soft); }
 
+.home { padding-bottom: 18px; }
+.home-version {
+  position: fixed;
+  z-index: 3;
+  right: calc(14px + env(safe-area-inset-right));
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+
 .top-row {
   display: flex;
   justify-content: space-between;

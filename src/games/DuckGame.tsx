@@ -114,8 +114,12 @@ function AnimalFace({ kind, fill }: { kind: Kind; fill: string }) {
           <ellipse cx="30" cy="28" rx="3" ry="10" fill="#f4b7c4" />
           <ellipse cx="50" cy="28" rx="3" ry="10" fill="#f4b7c4" />
           <circle cx="40" cy="50" r="16" fill={fill} />
-          <circle cx="34" cy="48" r="2" fill="#2a2340" />
-          <circle cx="46" cy="48" r="2" fill="#2a2340" />
+          <circle cx="34" cy="47" r="2" fill="#2a2340" />
+          <circle cx="46" cy="47" r="2" fill="#2a2340" />
+          <ellipse cx="40" cy="54" rx="2.6" ry="1.8" fill="#f4b7c4" stroke="#2a2340" strokeWidth="0.7" />
+          <path d="M40 55.6 Q36.5 59.5 33.5 57.5" fill="none" stroke="#2a2340" strokeWidth="1.25" strokeLinecap="round" />
+          <path d="M40 55.6 Q43.5 59.5 46.5 57.5" fill="none" stroke="#2a2340" strokeWidth="1.25" strokeLinecap="round" />
+          <path d="M36 53 H22 M36 55.5 H20 M44 53 H58 M44 55.5 H60" fill="none" stroke="#2a2340" strokeWidth="1.2" strokeLinecap="round" />
         </>
       )}
     </svg>

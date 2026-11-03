@@ -72,6 +72,9 @@ function AnimalFace({ kind, fill }: { kind: Kind; fill: string }) {
           <circle cx="53" cy="34" r="4" fill="#fff" />
           <circle cx="28" cy="35" r="2" fill="#2a2340" />
           <circle cx="54" cy="35" r="2" fill="#2a2340" />
+          <ellipse cx="36" cy="50" rx="1.4" ry="2" fill="#2a2340" />
+          <ellipse cx="44" cy="50" rx="1.4" ry="2" fill="#2a2340" />
+          <path d="M26 56 Q40 66 54 56" fill="none" stroke="#2a2340" strokeWidth="1.8" strokeLinecap="round" />
         </>
       )}
       {kind === 'fish' && (

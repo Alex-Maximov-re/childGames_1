@@ -1271,7 +1271,18 @@ h1, h2, p { overflow-wrap: break-word; }
   margin: 18px auto 0;
 }
 
-.xo-mode { min-height: 72px; font-size: 1.15rem; }
+.xo-mode {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  min-height: 104px;
+  padding: 10px 20px 10px 14px;
+  font-size: 1.15rem;
+  text-align: left;
+}
+
+.xo-pic { width: 120px; height: 70px; flex: none; }
 
 .xo-board {
   display: grid;

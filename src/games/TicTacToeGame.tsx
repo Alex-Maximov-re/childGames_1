@@ -92,6 +92,37 @@ function resultText(mode: Mode, result: Outcome): string {
   return result === 'x' ? 'Победили крестики' : 'Победили нолики'
 }
 
+function DuoPicture() {
+  return (
+    <svg className="xo-pic" viewBox="0 0 96 56" aria-hidden="true">
+      <circle cx="18" cy="16" r="8" fill="#f6c7a1" />
+      <ellipse cx="18" cy="12" rx="8" ry="5" fill="#6b4428" />
+      <rect x="8" y="26" width="20" height="18" rx="9" fill="#ff7a5c" />
+      <rect x="36" y="28" width="24" height="18" rx="4" fill="#fff8ee" />
+      <path d="M40 32 H56 M40 37 H56 M40 42 H56 M44 29 V45 M52 29 V45" stroke="#e4d3bc" strokeWidth="1.2" />
+      <circle cx="78" cy="16" r="8" fill="#f3d2b0" />
+      <ellipse cx="78" cy="12" rx="8" ry="5" fill="#2a2340" />
+      <rect x="68" y="26" width="20" height="18" rx="9" fill="#4aa8ef" />
+    </svg>
+  )
+}
+
+function AiPicture() {
+  return (
+    <svg className="xo-pic" viewBox="0 0 96 56" aria-hidden="true">
+      <circle cx="20" cy="16" r="8" fill="#f6c7a1" />
+      <ellipse cx="20" cy="12" rx="8" ry="5" fill="#6b4428" />
+      <rect x="10" y="26" width="20" height="18" rx="9" fill="#7dce6a" />
+      <rect x="46" y="12" width="40" height="28" rx="5" fill="#2a2340" />
+      <rect x="50" y="16" width="32" height="18" rx="2" fill="#d7f3ff" />
+      <path d="M55 20 L61 28 M61 20 L55 28" fill="none" stroke="#ff6b4a" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="72" cy="25" r="4" fill="none" stroke="#1f8fe0" strokeWidth="1.8" />
+      <rect x="62" y="40" width="8" height="3" rx="1" fill="#8d879c" />
+      <rect x="54" y="43" width="24" height="4" rx="2" fill="#5c566e" />
+    </svg>
+  )
+}
+
 export function TicTacToeGame({ age, onExit, onReplay, next }: GameProps) {
   const { record } = useSave()
   const [mode, setMode] = useState<Mode | null>(null)
@@ -213,7 +244,8 @@ export function TicTacToeGame({ age, onExit, onReplay, next }: GameProps) {
               setMode('duo')
             }}
           >
-            Игра вдвоём
+            <DuoPicture />
+            <span>Игра вдвоём</span>
           </button>
           <button
             type="button"
@@ -223,7 +255,8 @@ export function TicTacToeGame({ age, onExit, onReplay, next }: GameProps) {
               setMode('ai')
             }}
           >
-            Играть одному против ИИ
+            <AiPicture />
+            <span>Играть одному против ИИ</span>
           </button>
         </div>
       )}

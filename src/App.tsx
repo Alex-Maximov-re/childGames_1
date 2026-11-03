@@ -6,6 +6,7 @@ import { platformTitle } from './product'
 import { unlockAudio } from './sound'
 import { Nav, type NavPlace } from './Nav'
 import { Home } from './screens/Home'
+import { News } from './screens/News'
 import { GameList } from './screens/GameList'
 import { ParentGate, Parents } from './screens/Parents'
 import { useSave } from './save'
@@ -17,6 +18,7 @@ type Screen =
   | { name: 'play'; age: AgeId; id: GameId }
   | { name: 'gate' }
   | { name: 'parents' }
+  | { name: 'news' }
 
 export function App() {
   const platform = usePlatform()
@@ -47,6 +49,10 @@ export function App() {
       document.title = `Родителям — ${platformTitle(platform)}`
       return
     }
+    if (screen.name === 'news') {
+      document.title = `Что нового — ${platformTitle(platform)}`
+      return
+    }
     document.title = `${platformTitle(platform)} — игры для детей`
   }, [loc, screen, platform])
 
@@ -71,7 +77,13 @@ export function App() {
 
   const ageTheme = screen.name === 'list' || screen.name === 'play' ? screen.age : 'home'
   const place: NavPlace =
-    screen.name === 'home' ? 'home' : screen.name === 'gate' || screen.name === 'parents' ? 'parents' : screen.age
+    screen.name === 'home'
+      ? 'home'
+      : screen.name === 'news'
+        ? 'news'
+        : screen.name === 'gate' || screen.name === 'parents'
+          ? 'parents'
+          : screen.age
 
   return (
     <>
@@ -89,6 +101,7 @@ export function App() {
           setScreen({ name: 'list', age })
         }}
         onParents={() => setScreen((current) => (current.name === 'parents' ? current : { name: 'gate' }))}
+        onNews={() => setScreen({ name: 'news' })}
       />
       <div className="app">
         <Guard key={loc}>
@@ -131,6 +144,7 @@ export function App() {
             <ParentGate onExit={() => setScreen({ name: 'home' })} onSuccess={() => setScreen({ name: 'parents' })} />
           )}
           {screen.name === 'parents' && <Parents onExit={() => setScreen({ name: 'home' })} />}
+          {screen.name === 'news' && <News onExit={() => setScreen({ name: 'home' })} />}
         </Guard>
       </div>
       </div>

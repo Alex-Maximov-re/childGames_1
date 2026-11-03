@@ -960,6 +960,30 @@ h1, h2, p { overflow-wrap: break-word; }
   user-select: text;
 }
 
+.news-lead { margin: 4px 0 0; }
+
+.news-day h2 {
+  margin: 18px 0 8px;
+  font-size: 1.2rem;
+}
+
+.news-day ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.news-day li {
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.news-more { margin-top: 16px; }
+
 .panel h2 { margin: 0; font-size: 1.35rem; }
 .panel p { margin: 0; }
 .panel a { color: var(--accent); font-weight: 800; }

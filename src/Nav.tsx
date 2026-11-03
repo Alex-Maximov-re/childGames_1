@@ -4,18 +4,20 @@ import { ages } from './catalog'
 import { cx } from './text'
 import type { AgeId } from './types'
 
-export type NavPlace = 'home' | AgeId | 'parents'
+export type NavPlace = 'home' | AgeId | 'parents' | 'news'
 
 export function Nav({
   place,
   onHome,
   onAge,
   onParents,
+  onNews,
 }: {
   place: NavPlace
   onHome: () => void
   onAge: (age: AgeId) => void
   onParents: () => void
+  onNews: () => void
 }) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLElement>(null)
@@ -27,6 +29,7 @@ export function Nav({
       label: age.menu,
       onClick: () => onAge(age.id),
     })),
+    { id: 'news', label: 'Что нового', onClick: onNews },
     { id: 'parents', label: 'Родителям', onClick: onParents },
   ]
 

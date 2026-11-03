@@ -93,10 +93,18 @@ function AnimalFace({ kind, fill }: { kind: Kind; fill: string }) {
       )}
       {kind === 'turtle' && (
         <>
-          <circle cx="20" cy="48" r="9" fill={fill} />
-          <ellipse cx="46" cy="48" rx="22" ry="16" fill={fill} />
-          <ellipse cx="46" cy="48" rx="13" ry="9" fill="rgba(255,255,255,0.38)" />
-          <circle cx="17" cy="46" r="1.8" fill="#2a2340" />
+          <ellipse cx="26" cy="62" rx="8" ry="4.5" fill={fill} />
+          <ellipse cx="40" cy="68" rx="8" ry="4.2" fill={fill} />
+          <ellipse cx="54" cy="68" rx="8" ry="4.2" fill={fill} />
+          <ellipse cx="66" cy="60" rx="7" ry="4" fill={fill} />
+          <ellipse cx="18" cy="50" rx="6" ry="5" fill={fill} />
+          <circle cx="12" cy="42" r="9" fill={fill} />
+          <circle cx="9" cy="40" r="1.7" fill="#2a2340" />
+          <ellipse cx="46" cy="44" rx="24" ry="16" fill={fill} />
+          <ellipse cx="46" cy="44" rx="21" ry="13" fill="none" stroke="rgba(42,35,64,0.4)" strokeWidth="2.4" />
+          <ellipse cx="46" cy="43" rx="11" ry="7" fill="rgba(255,255,255,0.5)" />
+          <path d="M46 32 V55" stroke="rgba(42,35,64,0.4)" strokeWidth="1.8" />
+          <path d="M28 43 Q46 52 64 43" fill="none" stroke="rgba(42,35,64,0.4)" strokeWidth="1.8" />
         </>
       )}
       {kind === 'bunny' && (

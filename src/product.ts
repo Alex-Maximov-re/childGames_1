@@ -1,7 +1,7 @@
 import type { Platform } from './types'
 
 export const APP_NAME = 'Лучик'
-export const APP_VERSION = '1.0.4'
+export const APP_VERSION = '1.0.5'
 
 export function platformTitle(platform: Platform): string {
   if (platform === 'web') return 'Лучик в браузере'

@@ -16,6 +16,7 @@ export const GAME_IDS: GameId[] = [
   'ducks',
   'tictactoe',
   'ships',
+  'chess',
 ]
 
 export type AgeInfo = {
@@ -93,7 +94,7 @@ export const ages: AgeInfo[] = [
     title: '10+',
     menu: '10+',
     range: '10+',
-    text: 'Умножение, ряды посложнее, головоломка и морской бой',
+    text: 'Умножение, ряды посложнее, морской бой и шахматы',
     emoji: '💡',
   },
 ]
@@ -127,4 +128,5 @@ export const games: GameInfo[] = [
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },
   { id: 'ships', age: 'y10', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
+  { id: 'chess', age: 'y10', emoji: '♟️', title: 'Шахматы', blurb: 'Классические шахматы против компьютера' },
 ]

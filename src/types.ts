@@ -20,6 +20,7 @@ export type GameId =
   | 'ducks'
   | 'tictactoe'
   | 'ships'
+  | 'chess'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

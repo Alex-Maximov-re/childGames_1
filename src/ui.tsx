@@ -145,14 +145,20 @@ export function Finish({
         <button type="button" className="btn primary" onClick={onReplay}>
           Ещё раз
         </button>
-        {next && (
-          <button type="button" className="btn" onClick={next.onGo}>
-            Дальше: {next.title}
-          </button>
-        )}
         <button type="button" className="ghost" onClick={onExit}>
           К списку игр
         </button>
+        {next && (
+          <button type="button" className="btn primary next-game" onClick={next.onGo}>
+            <span className="next-kicker">Следующая игра</span>
+            <span className="next-title">
+              <span className="next-emoji" aria-hidden="true">
+                {next.emoji}
+              </span>
+              {next.title}
+            </span>
+          </button>
+        )}
       </div>
     </section>
   )

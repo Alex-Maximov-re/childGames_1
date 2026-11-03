@@ -156,8 +156,10 @@ function PlayScreen({
   const View = gameViews[id]
   const list = games.filter((game) => game.age === age)
   const index = list.findIndex((game) => game.id === id)
-  const upcoming = list[index + 1]
-  const next = upcoming ? { title: upcoming.title, onGo: () => onNext(upcoming.id) } : undefined
+  const upcoming = index >= 0 && list.length > 1 ? list[(index + 1) % list.length] : undefined
+  const next = upcoming
+    ? { title: upcoming.title, emoji: upcoming.emoji, onGo: () => onNext(upcoming.id) }
+    : undefined
   return <View key={nonce} age={age} onExit={onExit} onReplay={onReplay} next={next} />
 }
 

@@ -23,6 +23,7 @@ export type StarScore = 1 | 2 | 3
 
 export type NextGame = {
   title: string
+  emoji: string
   onGo: () => void
 }
 

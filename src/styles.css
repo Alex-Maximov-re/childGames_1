@@ -931,6 +931,27 @@ h1, h2, p { overflow-wrap: break-word; }
 .finish h2 { margin: 0; font-size: 2.1rem; }
 .row-actions { width: min(100%, 420px); display: grid; gap: 10px; }
 .row-actions .btn, .row-actions .ghost { width: 100%; }
+.btn.next-game {
+  min-height: 88px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1.15;
+  padding: 14px 20px;
+}
+.next-kicker { font-size: 0.95rem; font-weight: 800; }
+.next-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+.next-emoji { font-size: 1.7rem; line-height: 1; }
 .prize { width: min(100%, 280px); border-radius: 20px; }
 
 .confetti { position: absolute; inset: 0; pointer-events: none; }

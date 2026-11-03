@@ -12,6 +12,7 @@ export const GAME_IDS: GameId[] = [
   'puzzle',
   'mole',
   'halves',
+  'bubbles',
 ]
 
 export type AgeInfo = {
@@ -41,7 +42,7 @@ export const ages: AgeInfo[] = [
     title: '1–2 года',
     menu: '1–2',
     range: '1–2 года',
-    text: 'Цвета, звуки, крот и половинки картинок',
+    text: 'Цвета, звуки, крот, половинки и шарики',
     emoji: '🍼',
   },
   {
@@ -99,6 +100,7 @@ export const games: GameInfo[] = [
   { id: 'voices', age: 'y12', emoji: '🐮', title: 'Кто говорит', blurb: 'Два звука знакомых животных' },
   { id: 'mole', age: 'y12', emoji: '🐹', title: 'Крот', blurb: 'Поймай крота, когда он высунется' },
   { id: 'halves', age: 'y12', emoji: '🧩', title: 'Половинки', blurb: 'Перетащи вторую часть картинки' },
+  { id: 'bubbles', age: 'y12', emoji: '🎈', title: 'Лопай шарики', blurb: 'Лопни шарики, пока они летят' },
   { id: 'colors', age: 'y3', emoji: '🎨', title: 'Цвета', blurb: 'Найди цвет из трёх' },
   { id: 'shapes', age: 'y3', emoji: '⭐', title: 'Фигуры', blurb: 'Круг, квадрат и треугольник' },
   { id: 'voices', age: 'y3', emoji: '🐮', title: 'Кто говорит', blurb: 'Звуки знакомых животных' },

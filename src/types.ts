@@ -16,6 +16,7 @@ export type GameId =
   | 'puzzle'
   | 'mole'
   | 'halves'
+  | 'bubbles'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

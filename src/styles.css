@@ -1059,6 +1059,109 @@ h1, h2, p { overflow-wrap: break-word; }
   to { transform: translateY(260px) rotate(180deg); opacity: 0; }
 }
 
+.bubble-field {
+  position: relative;
+  height: min(62dvh, 520px);
+  min-height: 280px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(#d7f3ff 0%, #fff6ea 78%, #d7efb8 100%);
+  box-shadow: var(--shadow);
+  touch-action: none;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -110px;
+  width: 78px;
+  margin-left: -39px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  animation: bubble-rise linear forwards;
+  touch-action: manipulation;
+}
+
+.bubble-body {
+  position: relative;
+  display: block;
+  width: 68px;
+  height: 74px;
+  margin: 0 auto;
+  border-radius: 50%;
+  box-shadow: inset -8px -10px 0 rgba(42, 35, 64, 0.08), inset 10px 12px 0 rgba(255, 255, 255, 0.38);
+}
+
+.bubble-mark {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  background: #fff8e6;
+  box-shadow: 0 0 0 1.5px rgba(110, 82, 28, 0.22);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.bubble-knot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: -3px auto 0;
+  transform: rotate(45deg);
+}
+
+.bubble-string {
+  display: block;
+  width: 2px;
+  height: 16px;
+  margin: 0 auto;
+  background: rgba(42, 35, 64, 0.28);
+}
+
+.bubble-burst {
+  position: absolute;
+  z-index: 3;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.bubble-burst i {
+  --x: 0px;
+  --y: -28px;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  background: #fff6dc;
+  box-shadow: 0 0 0 1.5px rgba(110, 82, 28, 0.22);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: cheer-pop 0.48s ease-out forwards;
+}
+
+.bubble-burst i:nth-child(1) { --y: -34px; }
+.bubble-burst i:nth-child(2) { --x: 28px; --y: -10px; animation-delay: 0.03s; background: #f6e4b0; }
+.bubble-burst i:nth-child(3) { --x: -28px; --y: -8px; animation-delay: 0.02s; }
+.bubble-burst i:nth-child(4) { --x: 16px; --y: 18px; width: 8px; height: 8px; margin: -4px 0 0 -4px; }
+.bubble-burst i:nth-child(5) {
+  --x: -14px;
+  --y: 16px;
+  width: 7px;
+  height: 7px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  clip-path: none;
+  background: #f3e0a4;
+}
+
+@keyframes bubble-rise {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(-1 * var(--rise, 760px))); }
+}
+
 @media (hover: hover) {
   .age-card, .game-card, .btn, .choice, .chip { transition: transform 0.15s ease; }
   .age-card:hover, .game-card:hover { transform: translateY(-2px); }
@@ -1132,4 +1235,5 @@ h1, h2, p { overflow-wrap: break-word; }
   .half-spark, .half-seam { display: none; }
   .btn.next-game::before { animation: none; opacity: 0.4; }
   .cheer { display: none; }
+  .bubble-burst i { animation: none; opacity: 0.8; }
 }

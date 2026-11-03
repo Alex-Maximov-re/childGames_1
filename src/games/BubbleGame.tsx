@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { randInt } from '../random'
 import { playGood } from '../sound'
+import { plural } from '../text'
 import type { GameProps, StarScore } from '../types'
 import { Finish, Shell, useSpeak } from '../ui'
 
-const LEVELS = 3
+const LEVELS = 5
 const GOAL = 20
+const BASE_RISE_MS = Math.round(9000 / 1.1)
 const COLORS = ['#ff7a5c', '#ffd24a', '#7dce6a', '#7ec8f0', '#f7a8c4', '#b9a6f2']
 
 type Balloon = {
@@ -19,7 +21,7 @@ type Balloon = {
 type Burst = { id: number; x: number; y: number }
 
 function riseMs(level: number): number {
-  return Math.round(9000 / (1 + 0.4 * (level - 1)))
+  return Math.round(BASE_RISE_MS / (1 + 0.4 * (level - 1)))
 }
 
 function spawnMs(level: number): number {
@@ -192,7 +194,7 @@ export function BubbleGame({ age, onExit, onReplay, next }: GameProps) {
           age={age}
           gameId="bubbles"
           stars={stars}
-          detail={`Набрано ${earned} очков за ${LEVELS} уровня`}
+          detail={`Набрано ${earned} очков за ${LEVELS} ${plural(LEVELS, 'уровень', 'уровня', 'уровней')}`}
           onReplay={onReplay}
           onExit={onExit}
           next={next}

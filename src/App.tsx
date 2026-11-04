@@ -11,6 +11,8 @@ import { GameList } from './screens/GameList'
 import { AllGames } from './screens/AllGames'
 import { ParentGate, Parents } from './screens/Parents'
 import { useSave } from './save'
+import { initBackgroundMusic, getBackgroundMusic } from './background-music'
+import { SoundButton } from './SoundButton'
 import type { AgeId, GameId } from './types'
 
 type Screen =
@@ -64,6 +66,18 @@ export function App() {
     document.title = `${platformTitle(platform)} — игры для детей`
   }, [loc, screen, platform])
 
+  // Управление музыкой при смене экранов
+  useEffect(() => {
+    const music = getBackgroundMusic()
+    if (!music) return
+
+    if (screen.name === 'play') {
+      music.pause()
+    } else {
+      music.resume()
+    }
+  }, [screen.name])
+
   useEffect(() => {
     return setBackListener(() => {
       if (screen.name === 'home') return false
@@ -78,6 +92,10 @@ export function App() {
     const unlock = () => {
       unlockAudio()
       window.speechSynthesis?.getVoices()
+      const music = initBackgroundMusic()
+      music.play().catch(() => {
+        // Браузер может блокировать автозапуск
+      })
       window.removeEventListener('pointerdown', unlock)
     }
     window.addEventListener('pointerdown', unlock)
@@ -105,17 +123,18 @@ export function App() {
         <span />
       </div>
       <div className="frame" data-age={ageTheme} data-platform={platform}>
-      <Nav
-        place={place}
-        onHome={() => setScreen({ name: 'home' })}
-        onAge={(age) => {
-          setAge(age)
-          setScreen({ name: 'list', age })
-        }}
-        onAll={() => setScreen({ name: 'all' })}
-        onParents={() => setScreen((current) => (current.name === 'parents' ? current : { name: 'gate' }))}
-        onNews={() => setScreen({ name: 'news' })}
-      />
+        <SoundButton />
+        <Nav
+          place={place}
+          onHome={() => setScreen({ name: 'home' })}
+          onAge={(age) => {
+            setAge(age)
+            setScreen({ name: 'list', age })
+          }}
+          onAll={() => setScreen({ name: 'all' })}
+          onParents={() => setScreen((current) => (current.name === 'parents' ? current : { name: 'gate' }))}
+          onNews={() => setScreen({ name: 'news' })}
+        />
       <div className="app">
         <Guard key={loc}>
           {screen.name === 'home' && (

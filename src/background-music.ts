@@ -2,6 +2,9 @@
 
 import { isSound } from './sound'
 
+// URL для фоновой музыки — Vite автоматически обработает его при сборке
+const backgroundMusicUrl = '/background_music.mp3'
+
 class BackgroundMusic {
   private audio: HTMLAudioElement | null = null
   private isPlaying = false
@@ -72,7 +75,7 @@ let music: BackgroundMusic | null = null
 
 export function initBackgroundMusic(): BackgroundMusic {
   if (!music) {
-    music = new BackgroundMusic('/backgroud_music.mp3')
+    music = new BackgroundMusic(backgroundMusicUrl)
   }
   return music
 }

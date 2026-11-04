@@ -8,6 +8,7 @@ import { Nav, type NavPlace } from './Nav'
 import { Home } from './screens/Home'
 import { News } from './screens/News'
 import { GameList } from './screens/GameList'
+import { AllGames } from './screens/AllGames'
 import { ParentGate, Parents } from './screens/Parents'
 import { useSave } from './save'
 import type { AgeId, GameId } from './types'
@@ -15,6 +16,7 @@ import type { AgeId, GameId } from './types'
 type Screen =
   | { name: 'home' }
   | { name: 'list'; age: AgeId }
+  | { name: 'all' }
   | { name: 'play'; age: AgeId; id: GameId }
   | { name: 'gate' }
   | { name: 'parents' }
@@ -31,10 +33,16 @@ export function App() {
       ? `play-${screen.id}-${nonce}`
       : screen.name === 'list'
         ? `list-${screen.age}`
-        : screen.name
+        : screen.name === 'all'
+          ? 'all'
+          : screen.name
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    if (screen.name === 'all') {
+      document.title = `Все игры — ${platformTitle(platform)}`
+      return
+    }
     if (screen.name === 'list') {
       const age = ages.find((item) => item.id === screen.age)
       document.title = age ? `${age.title} — ${platformTitle(platform)}` : platformTitle(platform)
@@ -60,6 +68,7 @@ export function App() {
     return setBackListener(() => {
       if (screen.name === 'home') return false
       if (screen.name === 'play') setScreen({ name: 'list', age: screen.age })
+      else if (screen.name === 'all') setScreen({ name: 'home' })
       else setScreen({ name: 'home' })
       return true
     })
@@ -75,7 +84,8 @@ export function App() {
     return () => window.removeEventListener('pointerdown', unlock)
   }, [])
 
-  const ageTheme = screen.name === 'list' || screen.name === 'play' ? screen.age : 'home'
+  const ageTheme =
+    screen.name === 'list' || screen.name === 'play' ? screen.age : screen.name === 'all' ? 'home' : 'home'
   const place: NavPlace =
     screen.name === 'home'
       ? 'home'
@@ -83,7 +93,9 @@ export function App() {
         ? 'news'
         : screen.name === 'gate' || screen.name === 'parents'
           ? 'parents'
-          : screen.age
+          : screen.name === 'all'
+            ? 'all'
+            : screen.age
 
   return (
     <>
@@ -100,6 +112,7 @@ export function App() {
           setAge(age)
           setScreen({ name: 'list', age })
         }}
+        onAll={() => setScreen({ name: 'all' })}
         onParents={() => setScreen((current) => (current.name === 'parents' ? current : { name: 'gate' }))}
         onNews={() => setScreen({ name: 'news' })}
       />
@@ -126,6 +139,9 @@ export function App() {
                 setScreen({ name: 'play', age: screen.age, id })
               }}
             />
+          )}
+          {screen.name === 'all' && (
+            <AllGames onBack={() => setScreen({ name: 'home' })} onPlay={(id) => { setNonce((value) => value + 1); setScreen({ name: 'play', age: 'y12', id }) }} />
           )}
           {screen.name === 'play' && (
             <PlayScreen

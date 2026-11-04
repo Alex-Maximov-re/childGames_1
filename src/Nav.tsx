@@ -4,18 +4,20 @@ import { ages } from './catalog'
 import { cx } from './text'
 import type { AgeId } from './types'
 
-export type NavPlace = 'home' | AgeId | 'parents' | 'news'
+export type NavPlace = 'home' | AgeId | 'parents' | 'news' | 'all'
 
 export function Nav({
   place,
   onHome,
   onAge,
+  onAll,
   onParents,
   onNews,
 }: {
   place: NavPlace
   onHome: () => void
   onAge: (age: AgeId) => void
+  onAll: () => void
   onParents: () => void
   onNews: () => void
 }) {
@@ -24,6 +26,7 @@ export function Nav({
   const menuId = useId()
   const items: Array<{ id: NavPlace; label: string; onClick: () => void }> = [
     { id: 'home', label: 'Главная', onClick: onHome },
+    { id: 'all', label: 'Все игры', onClick: onAll },
     ...ages.map((age) => ({
       id: age.id as NavPlace,
       label: age.menu,

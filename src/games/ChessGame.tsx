@@ -159,6 +159,12 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     finishIfNeeded(game)
   }, [game])
 
+  // Сбрасываем выделение фигуры при смене хода (PvP режим)
+  useEffect(() => {
+    if (mode === 'ai') return
+    setSelected(null)
+  }, [game.side, mode])
+
   return (
     <Shell
       title="Шахматы"

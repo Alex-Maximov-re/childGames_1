@@ -128,5 +128,5 @@ export const games: GameInfo[] = [
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },
   { id: 'ships', age: 'y10', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
-  { id: 'chess', age: 'y10', emoji: '♟️', title: 'Шахматы', blurb: 'Классические шахматы против компьютера' },
+  { id: 'chess', age: 'y10', emoji: '♟️', title: 'Шахматы', blurb: 'Вдвоём или против компьютера' },
 ]

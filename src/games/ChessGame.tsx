@@ -24,6 +24,8 @@ const LEVELS: Array<{ id: Level; title: string; text: string }> = [
   { id: 'hard', title: 'Тяжёлый', text: 'Держится стратегий и почти не ошибается.' },
 ]
 
+type Mode = 'pvp' | 'ai' | null
+
 const PIECE: Record<Kind, string> = {
   k: 'король',
   q: 'ферзь',
@@ -34,6 +36,7 @@ const PIECE: Record<Kind, string> = {
 }
 
 export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
+  const [mode, setMode] = useState<Mode>(null)
   const [level, setLevel] = useState<Level | null>(null)
   const [game, setGame] = useState<Game>(startGame)
   const [selected, setSelected] = useState<number | null>(null)
@@ -66,7 +69,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   }
 
   useEffect(() => {
-    if (!level || over || game.side !== 'b') return
+    if (mode !== 'ai' || !level || over || game.side !== 'b') return
     let cancel = false
     const id = window.setTimeout(() => {
       const move = chooseMove(game, level)
@@ -80,10 +83,10 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
       cancel = true
       window.clearTimeout(id)
     }
-  }, [game, level, over])
+  }, [game, level, mode, over])
 
   function onSquare(index: number) {
-    if (!level || over || game.side !== 'w') return
+    if (mode === 'pvp' || over) return
     const fromHere = selected == null ? [] : moves.filter((move) => move.from === selected && move.to === index)
     if (fromHere.length > 1) {
       setPending(fromHere)
@@ -100,12 +103,14 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
 
   const done = over ? ending(game) : null
   const stars: StarScore = done?.winner === 'w' ? 3 : done?.winner === 'draw' ? 2 : 1
-  const status = !level
-    ? 'Выбери сложность'
+  const status = !mode
+    ? 'Как играем?'
     : done
-      ? resultText(done.kind, done.winner)
+      ? resultText(done.kind, done.winner, mode === 'pvp')
       : game.side === 'b'
-        ? 'Компьютер думает…'
+        ? mode === 'pvp'
+          ? 'Ход чёрных'
+          : 'Компьютер думает…'
         : inCheck(game)
           ? 'Шах. Твой ход'
           : 'Твой ход'
@@ -113,15 +118,63 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   return (
     <Shell
       title="Шахматы"
-      onExit={level ? () => { setLevel(null); resetBoard() } : onExit}
-      onRestart={level && !done ? resetBoard : onReplay}
-      meta={level ? <span className="meta">{LEVELS.find((item) => item.id === level)?.title}</span> : undefined}
+      onExit={mode ? () => { setMode(null); resetBoard() } : onExit}
+      onRestart={mode && !done ? resetBoard : onReplay}
+      meta={mode === 'ai' && level ? <span className="meta">{LEVELS.find((item) => item.id === level)?.title}</span> : undefined}
     >
       <p className="prompt chess-prompt" aria-live="polite">
         {status}
       </p>
-      {level ? (
-        <>
+      {mode ? (
+        level ? (
+          <>
+            <ChessBoard
+              game={game}
+              selected={selected}
+              last={last}
+              targets={selected == null ? [] : moves.filter((move) => move.from === selected)}
+              onSquare={onSquare}
+            />
+            {pending && (
+              <div className="chess-promo">
+                {pending.map((move) => (
+                  <button key={move.promo} type="button" className="chess-promo-btn" onClick={() => commit(move)}>
+                    <PieceIcon side="w" kind={move.promo ?? 'q'} />
+                  </button>
+                ))}
+              </div>
+            )}
+            {done && (
+              <Finish
+                age={age}
+                gameId="chess"
+                stars={stars}
+                detail={resultText(done.kind, done.winner, mode === 'pvp')}
+                onReplay={onReplay}
+                onExit={onExit}
+                next={next}
+              />
+            )}
+          </>
+        ) : mode === 'ai' ? (
+          <div className="chess-levels">
+            <p className="hint">Ты играешь белыми. Компьютер — чёрными.</p>
+            {LEVELS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={cx('btn chess-level', item.id === 'hard' && 'primary')}
+                onClick={() => {
+                  resetBoard()
+                  setLevel(item.id)
+                }}
+              >
+                <span className="chess-level-title">{item.title}</span>
+                <span className="chess-level-text">{item.text}</span>
+              </button>
+            ))}
+          </div>
+        ) : (
           <ChessBoard
             game={game}
             selected={selected}
@@ -129,54 +182,43 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
             targets={selected == null ? [] : moves.filter((move) => move.from === selected)}
             onSquare={onSquare}
           />
-          {pending && (
-            <div className="chess-promo">
-              {pending.map((move) => (
-                <button key={move.promo} type="button" className="chess-promo-btn" onClick={() => commit(move)}>
-                  <PieceIcon side="w" kind={move.promo ?? 'q'} />
-                </button>
-              ))}
-            </div>
-          )}
-          {done && (
-            <Finish
-              age={age}
-              gameId="chess"
-              stars={stars}
-              detail={resultText(done.kind, done.winner)}
-              onReplay={onReplay}
-              onExit={onExit}
-              next={next}
-            />
-          )}
-        </>
+        )
       ) : (
-        <div className="chess-levels">
-          <p className="hint">Ты играешь белыми. Компьютер — чёрными.</p>
-          {LEVELS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={cx('btn chess-level', item.id === 'hard' && 'primary')}
-              onClick={() => {
-                resetBoard()
-                setLevel(item.id)
-              }}
-            >
-              <span className="chess-level-title">{item.title}</span>
-              <span className="chess-level-text">{item.text}</span>
-            </button>
-          ))}
+        <div className="chess-modes">
+          <button
+            type="button"
+            className="btn primary chess-mode"
+            onClick={() => {
+              resetBoard()
+              setMode('pvp')
+            }}
+          >
+            <span className="chess-mode-icon" aria-hidden="true">👥</span>
+            <span className="chess-mode-title">Вдвоём</span>
+            <span className="chess-mode-subtitle">Игра против друга</span>
+          </button>
+          <button
+            type="button"
+            className="btn chess-mode"
+            onClick={() => {
+              resetBoard()
+              setMode('ai')
+            }}
+          >
+            <span className="chess-mode-icon" aria-hidden="true">🤖</span>
+            <span className="chess-mode-title">Против компьютера</span>
+            <span className="chess-mode-subtitle">Выбери сложность</span>
+          </button>
         </div>
       )}
     </Shell>
   )
 }
 
-function resultText(kind: 'mate' | 'stalemate' | 'material', winner: Side | 'draw'): string {
-  if (kind === 'mate') return winner === 'w' ? 'Шах и мат. Ты победил.' : 'Шах и мат. Победил компьютер.'
+function resultText(kind: 'mate' | 'stalemate' | 'material', winner: Side | 'draw', isPvp: boolean): string {
+  if (kind === 'mate') return isPvp ? (winner === 'w' ? 'Шах и мат. Победили белые.' : 'Шах и мат. Победили чёрные.') : (winner === 'w' ? 'Шах и мат. Ты победил.' : 'Шах и мат. Победил компьютер.')
   if (kind === 'stalemate') return 'Пат. Ничья.'
-  return 'Ничья: фигур слишком мало, чтобы поставить мат.'
+  return isPvp ? 'Ничья: фигур слишком мало, чтобы поставить мат.' : 'Ничья: фигур слишком мало, чтобы поставить мат.'
 }
 
 function ChessBoard({

@@ -986,6 +986,40 @@ h1, h2, p { overflow-wrap: break-word; }
 
 .chess-prompt { font-size: clamp(1.35rem, 4vw, 1.8rem); }
 
+.chess-modes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 460px);
+  margin: 8px auto 0;
+}
+
+.chess-mode {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  min-height: 96px;
+  padding: 16px 20px;
+  border-radius: 22px;
+  text-align: left;
+}
+
+.chess-mode-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.chess-mode-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.chess-mode-subtitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
 .chess-levels {
   display: grid;
   gap: 12px;

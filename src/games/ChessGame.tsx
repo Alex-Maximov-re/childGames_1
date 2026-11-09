@@ -26,6 +26,12 @@ const LEVELS: Array<{ id: Level; title: string; text: string }> = [
 
 type Mode = 'pvp' | 'ai' | null
 
+type HistoryMove = {
+  move: Move
+  side: Side
+  captured?: Kind
+}
+
 const PIECE: Record<Kind, string> = {
   k: 'король',
   q: 'ферзь',
@@ -43,6 +49,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   const [pending, setPending] = useState<Move[] | null>(null)
   const [last, setLast] = useState<{ from: number; to: number } | null>(null)
   const [over, setOver] = useState(false)
+  const [history, setHistory] = useState<HistoryMove[]>([])
   const moves = useMemo(() => {
     // В режиме PvP level не нужен, так как ходят два человека
     // В режиме AI level нужен для выбора хода компьютером
@@ -55,6 +62,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     setPending(null)
     setLast(null)
     setOver(false)
+    setHistory([])
   }
 
   function finishIfNeeded(nextGame: Game) {
@@ -67,6 +75,15 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     setLast({ from: move.from, to: move.to })
     setSelected(null)
     setPending(null)
+    // Записываем ход в историю
+    setHistory((prev) => [
+      ...prev,
+      {
+        move,
+        side: game.side,
+        captured: move.capture ? game.board[move.to]?.kind : undefined,
+      },
+    ])
     if (move.capture) playGood()
     else playTap()
     finishIfNeeded(nextGame)
@@ -157,6 +174,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
                 ))}
               </div>
             )}
+            <ChessHistory history={history} />
             {done && (
               <Finish
                 age={age}
@@ -234,6 +252,24 @@ function resultText(kind: 'mate' | 'stalemate' | 'material', winner: Side | 'dra
   return isPvp ? 'Ничья: фигур слишком мало, чтобы поставить мат.' : 'Ничья: фигур слишком мало, чтобы поставить мат.'
 }
 
+function pieceName(kind: Kind, side: Side): string {
+  const names: Record<Kind, string> = {
+    p: 'пешка',
+    n: 'конь',
+    b: 'слон',
+    r: 'ладья',
+    q: 'ферзь',
+    k: 'король',
+  }
+  return `${names[kind]} ${side === 'w' ? 'белых' : 'чёрных'}`
+}
+
+function squareNameHuman(index: number): string {
+  const file = 'abcdefgh'[index % 8]
+  const rank = Math.floor(index / 8) + 1
+  return `${file}${rank}`
+}
+
 function ChessBoard({
   game,
   selected,
@@ -290,6 +326,28 @@ function ChessBoard({
     )
   }
   return <div className="chess-board">{nodes}</div>
+}
+
+function ChessHistory({ history }: { history: HistoryMove[] }) {
+  if (history.length === 0) return null
+
+  return (
+    <div className="chess-history">
+      <h3 className="chess-history-title">Ходы</h3>
+      <div className="chess-history-list">
+        {history.map((record, idx) => (
+          <div key={idx} className={cx('chess-history-item', record.side === 'w' && 'white-move', record.side === 'b' && 'black-move')}>
+            <span className="chistory-number">{idx + 1}.</span>
+            <span className="chistory-player">{record.side === 'w' ? 'Белые' : 'Чёрные'}</span>
+            <span className="chistory-move">
+              {pieceName(record.move.promo ?? record.move.kind, record.side)} - {squareNameHuman(record.move.from)} → {squareNameHuman(record.move.to)}
+            </span>
+            {record.captured && <span className="chistory-capture">съел {pieceName(record.captured, record.side === 'w' ? 'b' : 'w')}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function PieceIcon({ side, kind }: { side: Side; kind: Kind }) {

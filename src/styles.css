@@ -1020,6 +1020,71 @@ h1, h2, p { overflow-wrap: break-word; }
   color: var(--ink-soft);
 }
 
+.chess-history {
+  margin-top: 16px;
+  width: min(100%, 460px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.chess-history-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 12px 0;
+  color: var(--ink);
+}
+
+.chess-history-list {
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+}
+
+.chess-history-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.chess-history-item.white-move {
+  background: rgba(246, 230, 200, 0.5);
+}
+
+.chess-history-item.black-move {
+  background: rgba(42, 35, 64, 0.1);
+}
+
+.chistory-number {
+  font-weight: 700;
+  color: var(--ink-soft);
+  min-width: 24px;
+}
+
+.chistory-player {
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 50px;
+}
+
+.chistory-move {
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.chistory-capture {
+  color: #e63946;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
 .chess-levels {
   display: grid;
   gap: 12px;

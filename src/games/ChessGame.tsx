@@ -86,7 +86,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   }, [game, level, mode, over])
 
   function onSquare(index: number) {
-    if (mode === 'pvp' || over) return
+    if (over) return
     const fromHere = selected == null ? [] : moves.filter((move) => move.from === selected && move.to === index)
     if (fromHere.length > 1) {
       setPending(fromHere)
@@ -98,7 +98,10 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     }
     const piece = game.board[index]
     setPending(null)
-    setSelected(piece?.side === 'w' ? index : null)
+    // В режиме PvP можно выбирать фигуры только своего цвета, в режиме AI — только белые
+    const isPvp = mode === 'pvp'
+    const canSelect = isPvp ? piece?.side === game.side : piece?.side === 'w'
+    setSelected(canSelect ? index : null)
   }
 
   const done = over ? ending(game) : null

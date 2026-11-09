@@ -43,7 +43,11 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   const [pending, setPending] = useState<Move[] | null>(null)
   const [last, setLast] = useState<{ from: number; to: number } | null>(null)
   const [over, setOver] = useState(false)
-  const moves = useMemo(() => (level && !over ? legalMoves(game) : []), [game, level, over])
+  const moves = useMemo(() => {
+    // В режиме PvP level не нужен, так как ходят два человека
+    // В режиме AI level нужен для выбора хода компьютером
+    return (level || mode === 'pvp') && !over ? legalMoves(game) : []
+  }, [game, level, mode, over])
 
   function resetBoard() {
     setGame(startGame())

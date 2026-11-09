@@ -87,21 +87,27 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
 
   function onSquare(index: number) {
     if (over) return
-    const fromHere = selected == null ? [] : moves.filter((move) => move.from === selected && move.to === index)
-    if (fromHere.length > 1) {
-      setPending(fromHere)
-      return
-    }
-    if (fromHere.length === 1) {
-      commit(fromHere[0])
-      return
-    }
     const piece = game.board[index]
+    
+    // Проверяем, можно ли ходить в эту клетку (из уже выбранной фигуры)
+    if (selected != null) {
+      const fromHere = moves.filter((move) => move.from === selected && move.to === index)
+      if (fromHere.length > 0) {
+        commit(fromHere[0])
+        return
+      }
+    }
+    
+    // Если кликнули на свою фигуру — выбираем её
+    if (piece?.side === game.side) {
+      setPending(null)
+      setSelected(selected === index ? null : index)
+      return
+    }
+    
+    // Иначе сбрасываем выделение
     setPending(null)
-    // В режиме PvP можно выбирать фигуры только своего цвета, в режиме AI — только белые
-    const isPvp = mode === 'pvp'
-    const canSelect = isPvp ? piece?.side === game.side : piece?.side === 'w'
-    setSelected(canSelect ? index : null)
+    setSelected(null)
   }
 
   const done = over ? ending(game) : null

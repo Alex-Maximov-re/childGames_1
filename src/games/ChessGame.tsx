@@ -76,14 +76,14 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     setSelected(null)
     setPending(null)
     // Записываем ход в историю
-    setHistory((prev) => [
-      ...prev,
-      {
-        move,
-        side: game.side,
-        captured: move.capture ? game.board[move.to]?.kind : undefined,
-      },
-    ])
+    const capturedKind = move.capture ? game.board[move.to]?.kind : undefined
+    const historyEntry: HistoryMove = {
+      move,
+      side: game.side,
+      captured: capturedKind,
+    }
+    console.log('Записываем ход:', historyEntry)
+    setHistory((prev) => [...prev, historyEntry])
     if (move.capture) playGood()
     else playTap()
     finishIfNeeded(nextGame)
@@ -109,24 +109,27 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   function onSquare(index: number) {
     if (over) return
     const piece = game.board[index]
-    
+
     // Проверяем, можно ли ходить в эту клетку (из уже выбранной фигуры)
     if (selected != null) {
       const fromHere = moves.filter((move) => move.from === selected && move.to === index)
       if (fromHere.length > 0) {
+        console.log('Выполняем ход, selected:', selected, 'index:', index)
         commit(fromHere[0])
         return
       }
     }
-    
+
     // Если кликнули на свою фигуру — выбираем её
     if (piece?.side === game.side) {
+      console.log('Выбираем фигуру:', piece.side, 'index:', index, 'game.side:', game.side)
       setPending(null)
       setSelected(selected === index ? null : index)
       return
     }
-    
+
     // Иначе сбрасываем выделение
+    console.log('Сбрасываем выделение')
     setPending(null)
     setSelected(null)
   }

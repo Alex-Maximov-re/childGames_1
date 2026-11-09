@@ -70,12 +70,6 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
   }
 
   function commit(move: Move) {
-    const nextGame = play(game, move)
-    setGame(nextGame)
-    setLast({ from: move.from, to: move.to })
-    setSelected(null)
-    setPending(null)
-    // Записываем ход в историю
     const capturedKind = move.capture ? game.board[move.to]?.kind : undefined
     const historyEntry: HistoryMove = {
       move,
@@ -83,10 +77,19 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
       captured: capturedKind,
     }
     console.log('Записываем ход:', historyEntry)
+    setGame((prev) => {
+      const nextGame = play(prev, move)
+      console.log('Действительно играем ход, теперь side:', nextGame.side)
+      return nextGame
+    })
+    setLast({ from: move.from, to: move.to })
+    setSelected(null)
+    setPending(null)
     setHistory((prev) => [...prev, historyEntry])
     if (move.capture) playGood()
     else playTap()
-    finishIfNeeded(nextGame)
+    // Проверяем окончание игры
+    window.setTimeout(() => finishIfNeeded(game), 0)
   }
 
   useEffect(() => {
@@ -98,6 +101,8 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
       const nextGame = play(game, move)
       setGame(nextGame)
       setLast({ from: move.from, to: move.to })
+      setSelected(null)
+      setPending(null)
       if (ending(nextGame)) setOver(true)
     }, 280)
     return () => {
@@ -147,6 +152,12 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
         : inCheck(game)
           ? 'Шах. Твой ход'
           : 'Твой ход'
+
+  // Проверяем окончание игры после каждого хода
+  useEffect(() => {
+    if (over) return
+    finishIfNeeded(game)
+  }, [game])
 
   return (
     <Shell

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { playGood, playTap } from '../sound'
 import { cx } from '../text'
 import type { GameProps, StarScore } from '../types'
@@ -69,27 +69,21 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     if (ending(nextGame)) setOver(true)
   }
 
+  function remember(current: Game, move: Move) {
+    const captured = move.ep ? 'p' : move.capture ? current.board[move.to]?.kind : undefined
+    setHistory((prev) => [...prev, { move, side: current.side, captured }])
+  }
+
   function commit(move: Move) {
-    const capturedKind = move.capture ? game.board[move.to]?.kind : undefined
-    const historyEntry: HistoryMove = {
-      move,
-      side: game.side,
-      captured: capturedKind,
-    }
-    console.log('Записываем ход:', historyEntry)
-    setGame((prev) => {
-      const nextGame = play(prev, move)
-      console.log('Действительно играем ход, теперь side:', nextGame.side)
-      return nextGame
-    })
+    remember(game, move)
+    const nextGame = play(game, move)
+    setGame(nextGame)
     setLast({ from: move.from, to: move.to })
     setSelected(null)
     setPending(null)
-    setHistory((prev) => [...prev, historyEntry])
     if (move.capture) playGood()
     else playTap()
-    // Проверяем окончание игры
-    window.setTimeout(() => finishIfNeeded(game), 0)
+    finishIfNeeded(nextGame)
   }
 
   useEffect(() => {
@@ -98,6 +92,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     const id = window.setTimeout(() => {
       const move = chooseMove(game, level)
       if (cancel) return
+      remember(game, move)
       const nextGame = play(game, move)
       setGame(nextGame)
       setLast({ from: move.from, to: move.to })
@@ -119,22 +114,17 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
     if (selected != null) {
       const fromHere = moves.filter((move) => move.from === selected && move.to === index)
       if (fromHere.length > 0) {
-        console.log('Выполняем ход, selected:', selected, 'index:', index)
         commit(fromHere[0])
         return
       }
     }
 
-    // Если кликнули на свою фигуру — выбираем её
     if (piece?.side === game.side) {
-      console.log('Выбираем фигуру:', piece.side, 'index:', index, 'game.side:', game.side)
       setPending(null)
       setSelected(selected === index ? null : index)
       return
     }
 
-    // Иначе сбрасываем выделение
-    console.log('Сбрасываем выделение')
     setPending(null)
     setSelected(null)
   }
@@ -175,66 +165,7 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
       <p className="prompt chess-prompt" aria-live="polite">
         {status}
       </p>
-      {mode ? (
-        level ? (
-          <>
-            <ChessBoard
-              game={game}
-              selected={selected}
-              last={last}
-              targets={selected == null ? [] : moves.filter((move) => move.from === selected)}
-              onSquare={onSquare}
-            />
-            {pending && (
-              <div className="chess-promo">
-                {pending.map((move) => (
-                  <button key={move.promo} type="button" className="chess-promo-btn" onClick={() => commit(move)}>
-                    <PieceIcon side="w" kind={move.promo ?? 'q'} />
-                  </button>
-                ))}
-              </div>
-            )}
-            <ChessHistory history={history} />
-            {done && (
-              <Finish
-                age={age}
-                gameId="chess"
-                stars={stars}
-                detail={resultText(done.kind, done.winner, mode === 'pvp')}
-                onReplay={onReplay}
-                onExit={onExit}
-                next={next}
-              />
-            )}
-          </>
-        ) : mode === 'ai' ? (
-          <div className="chess-levels">
-            <p className="hint">Ты играешь белыми. Компьютер — чёрными.</p>
-            {LEVELS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={cx('btn chess-level', item.id === 'hard' && 'primary')}
-                onClick={() => {
-                  resetBoard()
-                  setLevel(item.id)
-                }}
-              >
-                <span className="chess-level-title">{item.title}</span>
-                <span className="chess-level-text">{item.text}</span>
-              </button>
-            ))}
-          </div>
-        ) : (
-          <ChessBoard
-            game={game}
-            selected={selected}
-            last={last}
-            targets={selected == null ? [] : moves.filter((move) => move.from === selected)}
-            onSquare={onSquare}
-          />
-        )
-      ) : (
+      {!mode ? (
         <div className="chess-modes">
           <button
             type="button"
@@ -261,6 +192,55 @@ export function ChessGame({ age, onExit, onReplay, next }: GameProps) {
             <span className="chess-mode-subtitle">Выбери сложность</span>
           </button>
         </div>
+      ) : mode === 'ai' && !level ? (
+        <div className="chess-levels">
+          <p className="hint">Ты играешь белыми. Компьютер — чёрными.</p>
+          {LEVELS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={cx('btn chess-level', item.id === 'hard' && 'primary')}
+              onClick={() => {
+                resetBoard()
+                setLevel(item.id)
+              }}
+            >
+              <span className="chess-level-title">{item.title}</span>
+              <span className="chess-level-text">{item.text}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <>
+          <ChessBoard
+            game={game}
+            selected={selected}
+            last={last}
+            targets={selected == null ? [] : moves.filter((move) => move.from === selected)}
+            onSquare={onSquare}
+          />
+          {pending && (
+            <div className="chess-promo">
+              {pending.map((move) => (
+                <button key={move.promo} type="button" className="chess-promo-btn" onClick={() => commit(move)}>
+                  <PieceIcon side={game.side} kind={move.promo ?? 'q'} />
+                </button>
+              ))}
+            </div>
+          )}
+          <ChessHistory history={history} />
+          {done && (
+            <Finish
+              age={age}
+              gameId="chess"
+              stars={stars}
+              detail={resultText(done.kind, done.winner, mode === 'pvp')}
+              onReplay={onReplay}
+              onExit={onExit}
+              next={next}
+            />
+          )}
+        </>
       )}
     </Shell>
   )
@@ -270,18 +250,6 @@ function resultText(kind: 'mate' | 'stalemate' | 'material', winner: Side | 'dra
   if (kind === 'mate') return isPvp ? (winner === 'w' ? 'Шах и мат. Победили белые.' : 'Шах и мат. Победили чёрные.') : (winner === 'w' ? 'Шах и мат. Ты победил.' : 'Шах и мат. Победил компьютер.')
   if (kind === 'stalemate') return 'Пат. Ничья.'
   return isPvp ? 'Ничья: фигур слишком мало, чтобы поставить мат.' : 'Ничья: фигур слишком мало, чтобы поставить мат.'
-}
-
-function pieceName(kind: Kind, side: Side): string {
-  const names: Record<Kind, string> = {
-    p: 'пешка',
-    n: 'конь',
-    b: 'слон',
-    r: 'ладья',
-    q: 'ферзь',
-    k: 'король',
-  }
-  return `${names[kind]} ${side === 'w' ? 'белых' : 'чёрных'}`
 }
 
 function squareNameHuman(index: number): string {
@@ -349,25 +317,60 @@ function ChessBoard({
 }
 
 function ChessHistory({ history }: { history: HistoryMove[] }) {
-  if (history.length === 0) return null
+  const listRef = useRef<HTMLDivElement>(null)
+  const rows = pairMoves(history)
+
+  useEffect(() => {
+    const node = listRef.current
+    if (node) node.scrollTop = node.scrollHeight
+  }, [history])
+
+  if (rows.length === 0) return null
 
   return (
     <div className="chess-history">
       <h3 className="chess-history-title">Ходы</h3>
-      <div className="chess-history-list">
-        {history.map((record, idx) => (
-          <div key={idx} className={cx('chess-history-item', record.side === 'w' && 'white-move', record.side === 'b' && 'black-move')}>
-            <span className="chistory-number">{idx + 1}.</span>
-            <span className="chistory-player">{record.side === 'w' ? 'Белые' : 'Чёрные'}</span>
-            <span className="chistory-move">
-              {pieceName(record.move.promo ?? record.move.kind, record.side)} - {squareNameHuman(record.move.from)} → {squareNameHuman(record.move.to)}
-            </span>
-            {record.captured && <span className="chistory-capture">съел {pieceName(record.captured, record.side === 'w' ? 'b' : 'w')}</span>}
+      <div className="chess-sheet" ref={listRef}>
+        <div className="chess-sheet-row chess-sheet-head">
+          <span />
+          <span>Белые</span>
+          <span>Чёрные</span>
+        </div>
+        {rows.map((row) => (
+          <div key={row.number} className="chess-sheet-row">
+            <span className="chess-sheet-num">{row.number}.</span>
+            <span className="chess-sheet-move">{row.white ? formatMove(row.white) : ''}</span>
+            <span className="chess-sheet-move">{row.black ? formatMove(row.black) : ''}</span>
           </div>
         ))}
       </div>
     </div>
   )
+}
+
+function pairMoves(history: HistoryMove[]): Array<{ number: number; white?: HistoryMove; black?: HistoryMove }> {
+  const rows: Array<{ number: number; white?: HistoryMove; black?: HistoryMove }> = []
+  for (const record of history) {
+    const last = rows[rows.length - 1]
+    if (record.side === 'w' || !last || last.black) {
+      rows.push({ number: rows.length + 1, [record.side === 'w' ? 'white' : 'black']: record })
+    } else {
+      last.black = record
+    }
+  }
+  return rows
+}
+
+function formatMove(record: HistoryMove): string {
+  const move = record.move
+  if (move.castle === 'K') return '0–0'
+  if (move.castle === 'Q') return '0–0–0'
+  const piece = PIECE[move.kind]
+  const from = squareNameHuman(move.from)
+  const to = squareNameHuman(move.to)
+  const mark = record.captured ? '×' : '–'
+  const promo = move.promo ? `=${PIECE[move.promo]}` : ''
+  return `${piece} ${from}${mark}${to}${promo}`
 }
 
 function PieceIcon({ side, kind }: { side: Side; kind: Kind }) {

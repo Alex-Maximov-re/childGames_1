@@ -1035,54 +1035,40 @@ h1, h2, p { overflow-wrap: break-word; }
   color: var(--ink);
 }
 
-.chess-history-list {
-  max-height: 200px;
-  overflow-y: auto;
+.chess-sheet {
+  max-height: 220px;
+  overflow: auto;
   background: rgba(255, 255, 255, 0.92);
-  border-radius: 12px;
-  padding: 8px;
+  border-radius: 16px;
+  padding: 10px 12px;
   box-shadow: var(--shadow);
 }
 
-.chess-history-item {
-  display: flex;
+.chess-sheet-row {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) minmax(0, 1fr);
   gap: 8px;
   align-items: center;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(42, 35, 64, 0.08);
+  font-size: 0.95rem;
 }
 
-.chess-history-item.white-move {
-  background: rgba(246, 230, 200, 0.5);
-}
-
-.chess-history-item.black-move {
-  background: rgba(42, 35, 64, 0.1);
-}
-
-.chistory-number {
-  font-weight: 700;
+.chess-sheet-head {
+  font-weight: 800;
   color: var(--ink-soft);
-  min-width: 24px;
+  border-bottom-color: rgba(42, 35, 64, 0.16);
 }
 
-.chistory-player {
+.chess-sheet-num {
+  font-weight: 800;
+  color: var(--ink-soft);
+}
+
+.chess-sheet-move {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-weight: 700;
-  color: var(--ink);
-  min-width: 50px;
-}
-
-.chistory-move {
-  font-family: monospace;
-  font-weight: 600;
-}
-
-.chistory-capture {
-  color: #e63946;
-  font-weight: 600;
-  margin-left: 4px;
 }
 
 .chess-levels {

@@ -1753,9 +1753,10 @@ h1, h2, p { overflow-wrap: break-word; }
 
 /* Кнопка управления музыкой */
 .sound-button {
-  position: absolute;
-  top: 12px;
-  left: 12px;
+  position: fixed;
+  z-index: 30;
+  left: calc(14px + env(safe-area-inset-left));
+  bottom: calc(14px + env(safe-area-inset-bottom));
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -1789,7 +1790,5 @@ h1, h2, p { overflow-wrap: break-word; }
     width: 36px;
     height: 36px;
     font-size: 1.2rem;
-    top: 8px;
-    left: 8px;
   }
 }

@@ -1,41 +1,28 @@
-import { useEffect, useState } from 'react'
+import { unlockAudio } from './sound'
+import { initBackgroundMusic } from './background-music'
+import { useSave } from './save'
 import { cx } from './text'
-import { getBackgroundMusic } from './background-music'
 
 export function SoundButton() {
-  const [isMuted, setIsMuted] = useState(false)
-  const [hasPermission, setHasPermission] = useState(false)
-
-  useEffect(() => {
-    // Проверяем состояние mute при загрузке
-    const music = getBackgroundMusic()
-    if (music) {
-      setIsMuted(music.isAudioMuted())
-      setHasPermission(true)
-    }
-  }, [])
-
-  const handleClick = () => {
-    const music = getBackgroundMusic()
-    if (!music) return
-
-    music.toggleMute()
-    setIsMuted(music.isAudioMuted())
-  }
-
-  // Не показываем кнопку, если музыка не инициализирована
-  if (!hasPermission) return null
+  const { save, toggleSound } = useSave()
+  const muted = !save.sound
 
   return (
     <button
       type="button"
-      className={cx('sound-button', isMuted && 'muted')}
-      onClick={handleClick}
-      aria-label={isMuted ? 'Включить музыку' : 'Выключить музыку'}
-      title={isMuted ? 'Музыка выключена' : 'Музыка включена'}
+      className={cx('sound-button', muted && 'muted')}
+      onPointerDown={(event) => event.stopPropagation()}
+      onClick={() => {
+        unlockAudio()
+        const music = initBackgroundMusic()
+        music.noteGesture()
+        toggleSound()
+      }}
+      aria-label={muted ? 'Включить звук' : 'Выключить звук'}
+      title={muted ? 'Звук выключен' : 'Звук включён'}
     >
       <span className="sound-icon" aria-hidden="true">
-        {isMuted ? '🔇' : '🔊'}
+        {muted ? '🔇' : '🔊'}
       </span>
     </button>
   )

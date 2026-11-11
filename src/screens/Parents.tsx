@@ -125,7 +125,7 @@ export function Parents({ onExit }: { onExit: () => void }) {
           <span className="knob" aria-hidden="true" />
           {save.sound ? 'Звук включён' : 'Звук выключен'}
         </button>
-        <p>Так включаются мелодии и голос, который читает задания.</p>
+        <p>Так включаются фоновая музыка, короткие мелодии и голос, который читает задания.</p>
       </section>
       <section className="panel">
         <h2>Звёзды</h2>

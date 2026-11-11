@@ -1,82 +1,61 @@
-// Фоновая музыка для приложения Лучик
-
 import { isSound } from './sound'
 
-// URL для фоновой музыки — Vite автоматически обработает его при сборке
-const backgroundMusicUrl = '/background_music.mp3'
+const backgroundMusicUrl = `${import.meta.env.BASE_URL}background_music.mp3`
 
 class BackgroundMusic {
-  private audio: HTMLAudioElement | null = null
-  private isPlaying = false
-  private isMuted = false
+  private audio: HTMLAudioElement
+  private suspended = false
+  private hidden = false
+  private gestured = false
+  private token = 0
 
-  constructor(private src: string) {
-    this.load()
-  }
-
-  private load(): void {
-    this.audio = new Audio(this.src)
+  constructor(src: string) {
+    this.audio = new Audio(src)
     this.audio.loop = true
     this.audio.preload = 'auto'
-    this.audio.volume = 0.3 // тихая фоновая музыка
-
-    // Автозагрузка
-    this.audio.load()
+    this.audio.volume = 0.3
+    document.addEventListener('visibilitychange', () => {
+      this.hidden = document.hidden
+      void this.sync()
+    })
   }
 
-  public async play(): Promise<void> {
-    if (!this.audio || this.isPlaying || this.isMuted) return
-    if (!isSound()) return
+  setSuspended(suspended: boolean): void {
+    this.suspended = suspended
+    void this.sync()
+  }
 
+  noteGesture(): void {
+    this.gestured = true
+  }
+
+  private shouldPlay(): boolean {
+    return this.gestured && isSound() && !this.suspended && !this.hidden && document.visibilityState !== 'hidden'
+  }
+
+  async sync(): Promise<boolean> {
+    const token = ++this.token
+    if (!this.shouldPlay()) {
+      this.audio.pause()
+      return false
+    }
     try {
       await this.audio.play()
-      this.isPlaying = true
-    } catch (error) {
-      console.log('Автозапуск музыки заблокирован браузером:', error)
+      if (token !== this.token || !this.shouldPlay()) {
+        this.audio.pause()
+        return false
+      }
+      return true
+    } catch {
+      return false
     }
-  }
-
-  public pause(): void {
-    if (!this.audio || !this.isPlaying) return
-    this.audio.pause()
-    this.isPlaying = false
-  }
-
-  public resume(): void {
-    this.play()
-  }
-
-  public toggleMute(): void {
-    if (!this.audio) return
-    this.isMuted = !this.isMuted
-    if (this.isMuted) {
-      this.pause()
-    } else {
-      this.resume()
-    }
-  }
-
-  public isAudioMuted(): boolean {
-    return this.isMuted
-  }
-
-  public getVolume(): number {
-    return this.audio?.volume ?? 0
-  }
-
-  public setVolume(volume: number): void {
-    if (!this.audio) return
-    this.audio.volume = Math.max(0, Math.min(1, volume))
   }
 }
 
-// Создаём глобальный инстанс
 let music: BackgroundMusic | null = null
 
 export function initBackgroundMusic(): BackgroundMusic {
-  if (!music) {
-    music = new BackgroundMusic(backgroundMusicUrl)
-  }
+  if (!music) music = new BackgroundMusic(backgroundMusicUrl)
   return music
 }
 

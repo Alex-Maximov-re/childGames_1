@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { getBackgroundMusic } from './background-music'
 import { setSoundEnabled } from './sound'
 import { loadSave, writeSave, type SaveData } from './storage'
 import type { AgeId } from './types'
@@ -26,6 +27,7 @@ export function SaveProvider({ children }: { children: ReactNode }) {
       writeSave(next)
       setSoundEnabled(next.sound)
       if (!next.sound) window.speechSynthesis?.cancel()
+      void getBackgroundMusic()?.sync()
       return next
     })
   }, [])

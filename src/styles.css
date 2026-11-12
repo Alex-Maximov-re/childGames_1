@@ -1045,25 +1045,24 @@ h1, h2, p { overflow-wrap: break-word; }
 }
 
 .chess-sheet-row {
-  display: grid;
-  grid-template-columns: 2.4rem minmax(0, 1fr) minmax(0, 1fr);
+  display: flex;
   gap: 8px;
-  align-items: center;
-  padding: 6px 0;
+  align-items: baseline;
+  padding: 7px 4px;
   border-bottom: 1px solid rgba(42, 35, 64, 0.08);
   font-size: 0.95rem;
 }
 
-.chess-sheet-head {
+.chess-sheet-row.b { background: rgba(42, 35, 64, 0.05); }
+
+.chess-sheet-num,
+.chess-sheet-side {
+  flex: none;
   font-weight: 800;
   color: var(--ink-soft);
-  border-bottom-color: rgba(42, 35, 64, 0.16);
 }
 
-.chess-sheet-num {
-  font-weight: 800;
-  color: var(--ink-soft);
-}
+.chess-sheet-side { min-width: 4.6rem; }
 
 .chess-sheet-move {
   min-width: 0;

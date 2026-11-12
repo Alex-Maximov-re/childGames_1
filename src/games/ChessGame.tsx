@@ -318,29 +318,23 @@ function ChessBoard({
 
 function ChessHistory({ history }: { history: HistoryMove[] }) {
   const listRef = useRef<HTMLDivElement>(null)
-  const rows = pairMoves(history)
 
   useEffect(() => {
     const node = listRef.current
     if (node) node.scrollTop = node.scrollHeight
   }, [history])
 
-  if (rows.length === 0) return null
+  if (history.length === 0) return null
 
   return (
     <div className="chess-history">
       <h3 className="chess-history-title">Ходы</h3>
       <div className="chess-sheet" ref={listRef}>
-        <div className="chess-sheet-row chess-sheet-head">
-          <span />
-          <span>Белые</span>
-          <span>Чёрные</span>
-        </div>
-        {rows.map((row) => (
-          <div key={row.number} className="chess-sheet-row">
-            <span className="chess-sheet-num">{row.number}.</span>
-            <span className="chess-sheet-move">{row.white ? formatMove(row.white) : ''}</span>
-            <span className="chess-sheet-move">{row.black ? formatMove(row.black) : ''}</span>
+        {history.map((record, index) => (
+          <div key={`${index}-${record.move.from}-${record.move.to}`} className={cx('chess-sheet-row', record.side)}>
+            <span className="chess-sheet-num">{index + 1}.</span>
+            <span className="chess-sheet-side">{record.side === 'w' ? 'Белые' : 'Чёрные'}</span>
+            <span className="chess-sheet-move">{formatMove(record)}</span>
           </div>
         ))}
       </div>
@@ -348,29 +342,38 @@ function ChessHistory({ history }: { history: HistoryMove[] }) {
   )
 }
 
-function pairMoves(history: HistoryMove[]): Array<{ number: number; white?: HistoryMove; black?: HistoryMove }> {
-  const rows: Array<{ number: number; white?: HistoryMove; black?: HistoryMove }> = []
-  for (const record of history) {
-    const last = rows[rows.length - 1]
-    if (record.side === 'w' || !last || last.black) {
-      rows.push({ number: rows.length + 1, [record.side === 'w' ? 'white' : 'black']: record })
-    } else {
-      last.black = record
-    }
-  }
-  return rows
-}
-
 function formatMove(record: HistoryMove): string {
   const move = record.move
-  if (move.castle === 'K') return '0–0'
-  if (move.castle === 'Q') return '0–0–0'
+  if (move.castle === 'K') return 'короткая рокировка'
+  if (move.castle === 'Q') return 'длинная рокировка'
   const piece = PIECE[move.kind]
   const from = squareNameHuman(move.from)
   const to = squareNameHuman(move.to)
-  const mark = record.captured ? '×' : '–'
-  const promo = move.promo ? `=${PIECE[move.promo]}` : ''
-  return `${piece} ${from}${mark}${to}${promo}`
+  const became = move.promo ? ` и стала ${BECAME[move.promo]}` : ''
+  if (record.captured) return `${piece} ${from} ${ate(move.kind)} ${ACCUSATIVE[record.captured]} на ${to}${became}`
+  return `${piece} ${from}–${to}${became}`
+}
+
+const ACCUSATIVE: Record<Kind, string> = {
+  p: 'пешку',
+  n: 'коня',
+  b: 'слона',
+  r: 'ладью',
+  q: 'ферзя',
+  k: 'короля',
+}
+
+const BECAME: Record<Kind, string> = {
+  p: 'пешкой',
+  n: 'конём',
+  b: 'слоном',
+  r: 'ладьёй',
+  q: 'ферзём',
+  k: 'королём',
+}
+
+function ate(kind: Kind): string {
+  return kind === 'p' || kind === 'r' ? 'съела' : 'съел'
 }
 
 function PieceIcon({ side, kind }: { side: Side; kind: Kind }) {

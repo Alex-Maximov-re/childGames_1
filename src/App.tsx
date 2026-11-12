@@ -67,10 +67,6 @@ export function App() {
   }, [loc, screen, platform])
 
   useEffect(() => {
-    initBackgroundMusic().setSuspended(screen.name === 'play')
-  }, [screen.name])
-
-  useEffect(() => {
     return setBackListener(() => {
       if (screen.name === 'home') return false
       if (screen.name === 'play') setScreen({ name: 'list', age: screen.age })

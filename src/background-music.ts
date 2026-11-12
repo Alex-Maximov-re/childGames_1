@@ -4,7 +4,6 @@ const backgroundMusicUrl = `${import.meta.env.BASE_URL}background_music.mp3`
 
 class BackgroundMusic {
   private audio: HTMLAudioElement
-  private suspended = false
   private hidden = false
   private gestured = false
   private token = 0
@@ -20,17 +19,12 @@ class BackgroundMusic {
     })
   }
 
-  setSuspended(suspended: boolean): void {
-    this.suspended = suspended
-    void this.sync()
-  }
-
   noteGesture(): void {
     this.gestured = true
   }
 
   private shouldPlay(): boolean {
-    return this.gestured && isSound() && !this.suspended && !this.hidden && document.visibilityState !== 'hidden'
+    return this.gestured && isSound() && !this.hidden && document.visibilityState !== 'hidden'
   }
 
   async sync(): Promise<boolean> {

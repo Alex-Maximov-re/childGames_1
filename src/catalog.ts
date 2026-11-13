@@ -17,6 +17,7 @@ export const GAME_IDS: GameId[] = [
   'tictactoe',
   'ships',
   'chess',
+  'wipe',
 ]
 
 export type AgeInfo = {
@@ -46,7 +47,7 @@ export const ages: AgeInfo[] = [
     title: '1–2 года',
     menu: '1–2',
     range: '1–2 года',
-    text: 'Цвета, звуки, крот, половинки, шарики и уточки',
+    text: 'Цвета, звуки, крот, половинки, шарики, уточки и стиралка',
     emoji: '🍼',
   },
   {
@@ -54,7 +55,7 @@ export const ages: AgeInfo[] = [
     title: '3 года',
     menu: '3 года',
     range: '3 года',
-    text: 'Цвета, простые фигуры и знакомые животные',
+    text: 'Цвета, фигуры, животные и стиралка',
     emoji: '🌈',
   },
   {
@@ -106,9 +107,11 @@ export const games: GameInfo[] = [
   { id: 'halves', age: 'y12', emoji: '🧩', title: 'Половинки', blurb: 'Перетащи вторую часть картинки' },
   { id: 'bubbles', age: 'y12', emoji: '🎈', title: 'Лопай шарики', blurb: 'Лопни шарики, пока они летят' },
   { id: 'ducks', age: 'y12', emoji: '🦆', title: 'Уточки', blurb: 'Посади зверюшку в тазик своего цвета' },
+  { id: 'wipe', age: 'y12', emoji: '🧼', title: 'Стиралка', blurb: 'Сотри чёрное и найди зверя' },
   { id: 'colors', age: 'y3', emoji: '🎨', title: 'Цвета', blurb: 'Найди цвет из трёх' },
   { id: 'shapes', age: 'y3', emoji: '⭐', title: 'Фигуры', blurb: 'Круг, квадрат и треугольник' },
   { id: 'voices', age: 'y3', emoji: '🐮', title: 'Кто говорит', blurb: 'Звуки знакомых животных' },
+  { id: 'wipe', age: 'y3', emoji: '🧼', title: 'Стиралка', blurb: 'Сотри чёрное и найди зверя' },
   { id: 'shapes', age: 'y4', emoji: '⭐', title: 'Фигуры', blurb: 'Круг, квадрат, треугольник и звезда' },
   { id: 'voices', age: 'y4', emoji: '🐮', title: 'Кто говорит', blurb: 'Больше животных и их звуки' },
   { id: 'count', age: 'y4', emoji: '🔢', title: 'Сосчитай', blurb: 'Счёт от 1 до 4' },

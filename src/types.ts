@@ -21,6 +21,7 @@ export type GameId =
   | 'tictactoe'
   | 'ships'
   | 'chess'
+  | 'wipe'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

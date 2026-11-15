@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent, ty
 import { playBad, playGood, playTap } from '../sound'
 import { cx } from '../text'
 import type { GameProps, StarScore } from '../types'
-import { Finish, Shell, useSpeak } from '../ui'
+import { DragStars, Finish, Shell, useSpeak } from '../ui'
 import {
   LETTERS,
   allSunk,
@@ -439,6 +439,7 @@ export function SeaGame({ age, onExit, onReplay, next }: GameProps) {
               style={{ transform: `translate(${dragRef.current.x}px, ${dragRef.current.y}px)` }}
             >
               <ShipPicture len={drag.len} dir={drag.dir} />
+              <DragStars />
             </div>
           )}
         </div>

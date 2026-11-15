@@ -4,7 +4,7 @@ import { useQuiz } from '../quiz'
 import { playBad, playGood } from '../sound'
 import { cx } from '../text'
 import type { GameProps } from '../types'
-import { QuizFrame, useSpeak } from '../ui'
+import { DragStars, QuizFrame, useSpeak } from '../ui'
 import { AnimalSvg } from './halfArt'
 
 function HalfPicture({ id, side }: { id: string; side: 'left' | 'right' }) {
@@ -216,14 +216,17 @@ export function HalvesGame({ age, onExit, onReplay, next }: GameProps) {
           {dragging && dragRef.current && (
             <div
               ref={ghostRef}
-              className="half-ghost"
+              className="drag-float"
               style={{
                 width: dragRef.current.w,
                 height: dragRef.current.h,
                 transform: `translate(${dragRef.current.x}px, ${dragRef.current.y}px)`,
               }}
             >
-              <HalfPicture id={dragging.id} side="right" />
+              <div className="half-ghost">
+                <HalfPicture id={dragging.id} side="right" />
+              </div>
+              <DragStars />
             </div>
           )}
         </>

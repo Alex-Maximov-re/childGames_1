@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Luchik } from './art'
 import { useSave } from './save'
 import { playTap, playWin, speak } from './sound'
@@ -107,6 +107,55 @@ function Confetti() {
 export function Cheer() {
   return (
     <span className="cheer" aria-hidden="true">
+      <i />
+      <i />
+      <i />
+      <i />
+      <i />
+    </span>
+  )
+}
+
+export function DragStars({ follow = false }: { follow?: boolean }) {
+  return (
+    <span className={follow ? 'drag-stars follow' : 'drag-stars'} aria-hidden="true">
+      <i />
+      <i />
+      <i />
+      <i />
+      <i />
+    </span>
+  )
+}
+
+export function NativeDragStars() {
+  const ref = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    const hide = () => {
+      node.hidden = true
+    }
+    const show = (event: DragEvent) => {
+      if (event.clientX === 0 && event.clientY === 0) return
+      if (document.querySelector('.drag-float, .sorter-ghost, .sea-ghost')) {
+        hide()
+        return
+      }
+      node.hidden = false
+      node.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
+    }
+    window.addEventListener('drag', show)
+    window.addEventListener('dragend', hide)
+    window.addEventListener('drop', hide)
+    return () => {
+      window.removeEventListener('drag', show)
+      window.removeEventListener('dragend', hide)
+      window.removeEventListener('drop', hide)
+    }
+  }, [])
+  return (
+    <span ref={ref} hidden className="drag-stars follow" aria-hidden="true">
       <i />
       <i />
       <i />

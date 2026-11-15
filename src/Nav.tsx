@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Luchik } from './art'
 import { ages } from './catalog'
+import { SoundButton } from './SoundButton'
 import { cx } from './text'
 import type { AgeId } from './types'
 
@@ -63,15 +64,6 @@ export function Nav({
           <Luchik className="nav-mascot" />
           Лучик
         </button>
-        <button
-          type="button"
-          className="nav-toggle"
-          aria-expanded={open}
-          aria-controls={menuId}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? 'Закрыть' : 'Меню'}
-        </button>
         <nav id={menuId} className="nav-links" aria-label="Разделы">
           {items.map((item) => (
             <button
@@ -88,6 +80,18 @@ export function Nav({
             </button>
           ))}
         </nav>
+        <div className="nav-tools">
+          <SoundButton />
+          <button
+            type="button"
+            className="nav-toggle"
+            aria-expanded={open}
+            aria-controls={menuId}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? 'Закрыть' : 'Меню'}
+          </button>
+        </div>
       </div>
     </header>
   )

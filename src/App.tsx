@@ -12,7 +12,7 @@ import { AllGames } from './screens/AllGames'
 import { ParentGate, Parents } from './screens/Parents'
 import { useSave } from './save'
 import { initBackgroundMusic } from './background-music'
-import { SoundButton } from './SoundButton'
+import { NativeDragStars } from './ui'
 import type { AgeId, GameId } from './types'
 
 type Screen =
@@ -113,7 +113,7 @@ export function App() {
         <span />
       </div>
       <div className="frame" data-age={ageTheme} data-platform={platform}>
-        <SoundButton />
+        <NativeDragStars />
         <Nav
           place={place}
           onHome={() => setScreen({ name: 'home' })}

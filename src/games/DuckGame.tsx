@@ -3,7 +3,7 @@ import { randInt, shuffle } from '../random'
 import { playBad, playGood } from '../sound'
 import { cx, starsFrom } from '../text'
 import type { GameProps, StarScore } from '../types'
-import { Finish, Shell, useSpeak } from '../ui'
+import { DragStars, Finish, Shell, useSpeak } from '../ui'
 
 type ColorId = 'yellow' | 'blue' | 'coral'
 type Kind = 'duck' | 'frog' | 'fish' | 'chick' | 'turtle' | 'bunny'
@@ -333,6 +333,7 @@ export function DuckGame({ age, onExit, onReplay, next }: GameProps) {
               }}
             >
               <AnimalFace kind={dragging.kind} fill={LOOK[dragging.color].fill} />
+              <DragStars />
             </div>
           )}
         </>

@@ -22,6 +22,7 @@ export type GameId =
   | 'ships'
   | 'chess'
   | 'wipe'
+  | 'run'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

@@ -12,6 +12,7 @@ import { TicTacToeGame } from './TicTacToeGame'
 import { SeaGame } from './SeaGame'
 import { ChessGame } from './ChessGame'
 import { WipeGame } from './WipeGame'
+import { RunGame } from './RunGame'
 import { OddGame } from './OddGame'
 import { PuzzleGame } from './PuzzleGame'
 import { SequenceGame } from './SequenceGame'
@@ -36,4 +37,5 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   ships: SeaGame,
   chess: ChessGame,
   wipe: WipeGame,
+  run: RunGame,
 }

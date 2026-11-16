@@ -15,6 +15,7 @@ import { ChessGame } from './ChessGame'
 import { WipeGame } from './WipeGame'
 import { RunGame } from './RunGame'
 import { Match3Game } from './Match3Game'
+import { TangramGame } from './TangramGame'
 import { OddGame } from './OddGame'
 import { PuzzleGame } from './PuzzleGame'
 import { SequenceGame } from './SequenceGame'
@@ -42,4 +43,5 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   run: RunGame,
   echo: EchoGame,
   match3: Match3Game,
+  tangram: TangramGame,
 }

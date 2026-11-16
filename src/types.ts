@@ -25,6 +25,7 @@ export type GameId =
   | 'run'
   | 'echo'
   | 'match3'
+  | 'tangram'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

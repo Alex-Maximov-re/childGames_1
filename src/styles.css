@@ -2050,6 +2050,45 @@ h1, h2, p { overflow-wrap: break-word; }
 
 .match-cell.shake { animation: shake 0.32s ease; }
 
+.tan-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.tan-head .prompt { margin: 0; }
+
+.tan-preview {
+  display: block;
+  width: 84px;
+  height: 84px;
+  flex: none;
+}
+
+.tan-board {
+  display: block;
+  width: min(100%, 400px);
+  max-height: 48vh;
+  margin: 0 auto;
+  touch-action: none;
+}
+
+.tan-board polygon { cursor: grab; }
+
+.tan-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: min(100%, 460px);
+  margin: 10px auto 0;
+}
+
+.tan-actions .btn { min-height: 56px; }
+
+.tan-actions .btn:disabled { opacity: 0.45; }
+
 .match-cell.popping .match-face { animation: match-pop 0.18s ease forwards; }
 
 .match-face.fresh { animation: match-in 0.22s ease; }

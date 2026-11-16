@@ -21,6 +21,7 @@ export const GAME_IDS: GameId[] = [
   'run',
   'echo',
   'match3',
+  'tangram',
 ]
 
 export type AgeInfo = {
@@ -74,7 +75,7 @@ export const ages: AgeInfo[] = [
     title: '5 лет',
     menu: '5 лет',
     range: '5 лет',
-    text: 'Счёт, пары, повторюшка и три в ряд',
+    text: 'Счёт, пары, три в ряд и танграм',
     emoji: '🎈',
   },
   {
@@ -82,7 +83,7 @@ export const ages: AgeInfo[] = [
     title: '6 лет',
     menu: '6 лет',
     range: '6 лет',
-    text: 'Память, счёт, повторюшка и три в ряд',
+    text: 'Память, счёт, три в ряд и танграм',
     emoji: '🎲',
   },
   {
@@ -90,7 +91,7 @@ export const ages: AgeInfo[] = [
     title: '7–9 лет',
     menu: '7–9',
     range: '7–9 лет',
-    text: 'Примеры, морской бой, повторюшка и три в ряд',
+    text: 'Примеры, морской бой, три в ряд и танграм',
     emoji: '🔍',
   },
   {
@@ -98,7 +99,7 @@ export const ages: AgeInfo[] = [
     title: '10+',
     menu: '10+',
     range: '10+',
-    text: 'Шахматы, забег, морской бой и три в ряд',
+    text: 'Шахматы, забег, три в ряд и танграм',
     emoji: '💡',
   },
 ]
@@ -123,11 +124,13 @@ export const games: GameInfo[] = [
   { id: 'memory', age: 'y5', emoji: '🧠', title: 'Пары', blurb: 'Три пары карточек' },
   { id: 'echo', age: 'y5', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'match3', age: 'y5', emoji: '🫧', title: 'Три в ряд', blurb: 'Составь три шарика, бомба лопает вокруг' },
+  { id: 'tangram', age: 'y5', emoji: '🔺', title: 'Танграм', blurb: 'Собери такую же фигурку из кусочков' },
   { id: 'count', age: 'y6', emoji: '🔢', title: 'Сосчитай', blurb: 'Счёт от 1 до 8' },
   { id: 'memory', age: 'y6', emoji: '🧠', title: 'Пары', blurb: 'Шесть пар карточек' },
   { id: 'odd', age: 'y6', emoji: '👀', title: 'Что лишнее', blurb: 'Простые компании предметов' },
   { id: 'echo', age: 'y6', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'match3', age: 'y6', emoji: '🫧', title: 'Три в ряд', blurb: 'Составь три шарика, бомба лопает вокруг' },
+  { id: 'tangram', age: 'y6', emoji: '🔺', title: 'Танграм', blurb: 'Собери такую же фигурку из кусочков' },
   { id: 'odd', age: 'y79', emoji: '👀', title: 'Что лишнее', blurb: 'Найди предмет не из этой компании' },
   { id: 'math', age: 'y79', emoji: '➕', title: 'Примеры', blurb: 'Сложение и вычитание' },
   { id: 'sequence', age: 'y79', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Ряды с одинаковым шагом' },
@@ -136,6 +139,7 @@ export const games: GameInfo[] = [
   { id: 'ships', age: 'y79', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
   { id: 'echo', age: 'y79', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'match3', age: 'y79', emoji: '🫧', title: 'Три в ряд', blurb: 'Составь три шарика, бомба лопает вокруг' },
+  { id: 'tangram', age: 'y79', emoji: '🔺', title: 'Танграм', blurb: 'Собери такую же фигурку из кусочков' },
   { id: 'math', age: 'y10', emoji: '➕', title: 'Примеры', blurb: 'Сложение, вычитание и умножение' },
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },
@@ -143,4 +147,5 @@ export const games: GameInfo[] = [
   { id: 'chess', age: 'y10', emoji: '♟️', title: 'Шахматы', blurb: 'Вдвоём или против компьютера' },
   { id: 'run', age: 'y10', emoji: '🏃', title: 'Забег', blurb: 'Добеги до финиша, объезжая препятствия' },
   { id: 'match3', age: 'y10', emoji: '🫧', title: 'Три в ряд', blurb: 'Составь три шарика, бомба лопает вокруг' },
+  { id: 'tangram', age: 'y10', emoji: '🔺', title: 'Танграм', blurb: 'Собери такую же фигурку из кусочков' },
 ]

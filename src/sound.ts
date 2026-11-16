@@ -38,6 +38,13 @@ function tone(freq: number, duration: number, type: OscillatorType, when: number
   oscillator.stop(when + duration + 0.02)
 }
 
+export function playNote(freq: number, duration = 0.22): void {
+  if (!sound) return
+  const now = context()?.currentTime
+  if (now === undefined) return
+  tone(freq, duration, 'sine', now, 0.07)
+}
+
 export function playTap(): void {
   if (!sound) return
   const now = context()?.currentTime

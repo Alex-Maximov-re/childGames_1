@@ -19,6 +19,7 @@ export const GAME_IDS: GameId[] = [
   'chess',
   'wipe',
   'run',
+  'echo',
 ]
 
 export type AgeInfo = {
@@ -72,7 +73,7 @@ export const ages: AgeInfo[] = [
     title: '5 лет',
     menu: '5 лет',
     range: '5 лет',
-    text: 'Счёт, короткие пары и все фигуры',
+    text: 'Счёт, пары, фигуры и повторюшка',
     emoji: '🎈',
   },
   {
@@ -80,7 +81,7 @@ export const ages: AgeInfo[] = [
     title: '6 лет',
     menu: '6 лет',
     range: '6 лет',
-    text: 'Память, счёт подольше и «что лишнее»',
+    text: 'Память, счёт, «что лишнее» и повторюшка',
     emoji: '🎲',
   },
   {
@@ -88,7 +89,7 @@ export const ages: AgeInfo[] = [
     title: '7–9 лет',
     menu: '7–9',
     range: '7–9 лет',
-    text: 'Логика, примеры, картинка, крестики-нолики и морской бой',
+    text: 'Примеры, картинка, морской бой и повторюшка',
     emoji: '🔍',
   },
   {
@@ -119,15 +120,18 @@ export const games: GameInfo[] = [
   { id: 'shapes', age: 'y5', emoji: '⭐', title: 'Фигуры', blurb: 'Все формы, включая сердечко и ромб' },
   { id: 'count', age: 'y5', emoji: '🔢', title: 'Сосчитай', blurb: 'Счёт от 1 до 6' },
   { id: 'memory', age: 'y5', emoji: '🧠', title: 'Пары', blurb: 'Три пары карточек' },
+  { id: 'echo', age: 'y5', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'count', age: 'y6', emoji: '🔢', title: 'Сосчитай', blurb: 'Счёт от 1 до 8' },
   { id: 'memory', age: 'y6', emoji: '🧠', title: 'Пары', blurb: 'Шесть пар карточек' },
   { id: 'odd', age: 'y6', emoji: '👀', title: 'Что лишнее', blurb: 'Простые компании предметов' },
+  { id: 'echo', age: 'y6', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'odd', age: 'y79', emoji: '👀', title: 'Что лишнее', blurb: 'Найди предмет не из этой компании' },
   { id: 'math', age: 'y79', emoji: '➕', title: 'Примеры', blurb: 'Сложение и вычитание' },
   { id: 'sequence', age: 'y79', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Ряды с одинаковым шагом' },
   { id: 'puzzle', age: 'y79', emoji: '🧩', title: 'Картинка', blurb: 'Короткая сборка рисунка' },
   { id: 'tictactoe', age: 'y79', emoji: '⭕', title: 'Крестики-нолики', blurb: 'Вдвоём или против компьютера' },
   { id: 'ships', age: 'y79', emoji: '🚢', title: 'Морской бой', blurb: 'Расставь корабли и стреляй по очереди' },
+  { id: 'echo', age: 'y79', emoji: '🎵', title: 'Повторюшка', blurb: 'Повтори порядок цветов' },
   { id: 'math', age: 'y10', emoji: '➕', title: 'Примеры', blurb: 'Сложение, вычитание и умножение' },
   { id: 'sequence', age: 'y10', emoji: '🔁', title: 'Продолжи ряд', blurb: 'Шаг, удвоение и растущая прибавка' },
   { id: 'puzzle', age: 'y10', emoji: '🧩', title: 'Картинка', blurb: 'Собери рисунок, двигая кусочки' },

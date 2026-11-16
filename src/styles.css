@@ -1953,3 +1953,42 @@ h1, h2, p { overflow-wrap: break-word; }
   min-height: 64px;
   font-size: 1.25rem;
 }
+
+.echo-pads {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: min(100%, 420px);
+  margin: 8px auto 0;
+}
+
+.echo-pads.five {
+  width: min(100%, 480px, 62vh);
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.echo-pads.five .echo-pad:nth-child(1) { grid-column: 1 / span 2; }
+.echo-pads.five .echo-pad:nth-child(2) { grid-column: 3 / span 2; }
+.echo-pads.five .echo-pad:nth-child(3) { grid-column: 5 / span 2; }
+.echo-pads.five .echo-pad:nth-child(4) { grid-column: 2 / span 2; }
+.echo-pads.five .echo-pad:nth-child(5) { grid-column: 4 / span 2; }
+
+.echo-pad {
+  aspect-ratio: 1;
+  min-height: 112px;
+  border: 6px solid white;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  opacity: 0.48;
+  transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease;
+}
+
+.echo-pads.ready .echo-pad { opacity: 0.9; }
+
+.echo-pad.lit {
+  opacity: 1;
+  transform: scale(1.06);
+  filter: brightness(1.18);
+}
+
+.echo-pad.nope { animation: shake 0.42s ease; }

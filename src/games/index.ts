@@ -8,6 +8,7 @@ import { HalvesGame } from './HalvesGame'
 import { MoleGame } from './MoleGame'
 import { BubbleGame } from './BubbleGame'
 import { DuckGame } from './DuckGame'
+import { EchoGame } from './EchoGame'
 import { TicTacToeGame } from './TicTacToeGame'
 import { SeaGame } from './SeaGame'
 import { ChessGame } from './ChessGame'
@@ -38,4 +39,5 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   chess: ChessGame,
   wipe: WipeGame,
   run: RunGame,
+  echo: EchoGame,
 }

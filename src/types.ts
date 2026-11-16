@@ -24,6 +24,7 @@ export type GameId =
   | 'wipe'
   | 'run'
   | 'echo'
+  | 'match3'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 

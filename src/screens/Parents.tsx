@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { ANIMAL_PHOTO_CREDITS } from '../animalCredits'
 import { games } from '../catalog'
 import { usePlatform } from '../platform'
 import { APP_VERSION, platformTitle, platformWhere } from '../product'
@@ -162,6 +163,21 @@ export function Parents({ onExit }: { onExit: () => void }) {
           Просим предоставить обратную связь по приложению и все пожелания для улучшения на почту{' '}
           <a href="mailto:aleks.maksimov.re@gmail.com">aleks.maksimov.re@gmail.com</a>.
         </p>
+      </section>
+      <section className="panel">
+        <h2>Фотографии зверей</h2>
+        <p>В игре «Угадать животное» фотографии с Wikimedia Commons.</p>
+        <ul className="credits">
+          {ANIMAL_PHOTO_CREDITS.map((item) => (
+            <li key={item.name}>
+              {item.name}: {item.author}, {item.license}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section className="panel">
+        <h2>Картинки в «Угадай по тени»</h2>
+        <p>Звери из набора Fluent Emoji, © Microsoft Corporation, лицензия MIT.</p>
       </section>
       <section className="panel privacy">
         <h2>Без рекламы и без анкет</h2>

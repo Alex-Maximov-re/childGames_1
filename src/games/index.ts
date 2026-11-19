@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { GameId, GameProps } from '../types'
 import { ColorGame } from './ColorGame'
+import { ColoringGame } from './ColoringGame'
 import { CountGame } from './CountGame'
 import { MathGame } from './MathGame'
 import { MemoryGame } from './MemoryGame'
@@ -9,6 +10,8 @@ import { MoleGame } from './MoleGame'
 import { BubbleGame } from './BubbleGame'
 import { DuckGame } from './DuckGame'
 import { EchoGame } from './EchoGame'
+import { GuessGame } from './GuessGame'
+import { ShadowGame } from './ShadowGame'
 import { TicTacToeGame } from './TicTacToeGame'
 import { SeaGame } from './SeaGame'
 import { ChessGame } from './ChessGame'
@@ -44,4 +47,7 @@ export const gameViews: Record<GameId, ComponentType<GameProps>> = {
   echo: EchoGame,
   match3: Match3Game,
   tangram: TangramGame,
+  paint: ColoringGame,
+  guess: GuessGame,
+  shadow: ShadowGame,
 }

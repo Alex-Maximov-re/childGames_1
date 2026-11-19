@@ -26,6 +26,9 @@ export type GameId =
   | 'echo'
   | 'match3'
   | 'tangram'
+  | 'paint'
+  | 'guess'
+  | 'shadow'
 
 export type ShapeId = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'diamond'
 
